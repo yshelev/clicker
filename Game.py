@@ -4,7 +4,7 @@ from Settings import *
 class Game:
     def __init__(self):
         self.game_loop()
-        self.button = Button(screen, 100, 100, 100, 100, colour=(0, 0, 0))
+        self.button = Button(screen, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, colour=(0, 0, 0), onClick=print("Clicked"))
 
     def game_loop(self):
         running = True
