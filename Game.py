@@ -3,10 +3,40 @@ from Settings import *
 
 class Game:
     def __init__(self):
+        self.counter = 0
+        self.button = Button(screen, 100, 100, 100, 100,
+                             colour=(255, 255, 255),
+                             textColour="BLUE",
+                             pressedBorderColour="purple",
+                             pressedColour=(50, 50, 50),
+                             text="big_bros\n",
+                             onClick=self.on_click,
+                             font=self.get_font(10)
+        )
         self.game_loop()
-        self.button = Button(screen, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, colour=(0, 0, 0), onClick=print("Clicked"))
+
+    def get_font(self, font_size):
+        """
+        возвращает шрифт, от которого можно строить текст
+        :param font_size:
+        :return None:
+        """
+        return pygame.font.Font("data/menu_font.ttf", font_size)
+
+    def on_click(self, *args):
+        """
+        функция on_click отвечает за работу кнопки
+        :param args:
+        :return:
+        """
+        self.counter += 1
+        print(self.counter)
 
     def game_loop(self):
+        """
+        основный цикл игры.
+        :return None:
+        """
         running = True
         while running:
             clock.tick(FPS)
