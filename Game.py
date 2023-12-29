@@ -6,27 +6,35 @@ from Settings import *
 class Game:
     def __init__(self):
         self.counter = 0
-        self.button = Button(screen, 100, 100, 100, 100,
-                             colour=(255, 255, 255),
-                             textColour="BLUE",
-                             borderThickness=10,
-                             borderColour="GREEN",
-                             pressedBorderColour="PURPLE",
-                             pressedColour=(50, 50, 50),
-                             text="big_bros\n",
-                             onClick=self.on_click,
-                             font=self.get_font(10)
-                             )
+
+        self.fonts = {
+            "menu_font": "data/menu_font.ttf"
+        }
+
+        self.buttons = {
+            "main_button": Button(screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH, 800,
+                                  colour=(255, 255, 255),
+                                  textColour="BLUE",
+                                  borderThickness=10,
+                                  borderColour="GREEN",
+                                  pressedBorderColour="PURPLE",
+                                  pressedColour=(50, 50, 50),
+                                  text="ниггеры меня заждались на вписке",
+                                  onClick=self.on_click,
+                                  font=self.get_font(20, "menu_font")
+                                  )
+
+        }
         self.game_loop()
 
-    def get_font(self, font_size: int) -> pygame.font.Font:
+    def get_font(self, font_size: int, name: str) -> pygame.font.Font:
         """
         возвращает шрифт, от которого можно строить текст
         :param font_size:
         :return None:
         """
 
-        return pygame.font.Font("data/menu_font.ttf", font_size)
+        return pygame.font.Font(self.fonts[name], font_size)
 
     def on_click(self, *args: list) -> None:
         """
