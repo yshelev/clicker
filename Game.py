@@ -30,6 +30,7 @@ class Game:
     def get_font(self, font_size: int, name: str) -> pygame.font.Font:
         """
         возвращает шрифт, от которого можно строить текст
+        :param name:
         :param font_size:
         :return None:
         """
