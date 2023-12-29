@@ -1,3 +1,4 @@
-import pygame
+from Game import Game
 
-print("QWE")
+if __name__ == "__main__":
+    Game()
