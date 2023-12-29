@@ -32,7 +32,7 @@ class Game:
         возвращает шрифт, от которого можно строить текст
         :param name:
         :param font_size:
-        :return None:
+        :return pygame.font.Font:
         """
 
         return pygame.font.Font(self.fonts[name], font_size)
