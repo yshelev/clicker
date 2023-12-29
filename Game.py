@@ -45,7 +45,6 @@ class Game:
         """
 
         self.counter += 1
-        print(self.counter)
 
     def game_loop(self) -> None:
         """
