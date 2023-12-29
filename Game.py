@@ -1,6 +1,7 @@
 import pygame.font
 
 from Settings import *
+from Player import Player
 
 
 class Game:
@@ -10,6 +11,8 @@ class Game:
         self.fonts = {
             "menu_font": "data/menu_font.ttf"
         }
+
+        self.player = Player()
 
         self.buttons = {
             "main_button": Button(screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH // 4 * 3, SCREEN_HEIGHT // 4 * 3,
@@ -44,7 +47,7 @@ class Game:
         :return:
         """
 
-        self.counter += 1
+        self.player.handle_click()
 
     def game_loop(self) -> None:
         """
@@ -67,5 +70,6 @@ class Game:
                         myquit()
 
             pygame_widgets.update(events)
+            self.player.update()
 
             pygame.display.update()
