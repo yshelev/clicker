@@ -12,7 +12,7 @@ class Game:
         }
 
         self.buttons = {
-            "main_button": Button(screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH, 800,
+            "main_button": Button(screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH // 4 * 3, SCREEN_HEIGHT // 4 * 3,
                                   colour=(255, 255, 255),
                                   textColour="BLUE",
                                   borderThickness=10,
