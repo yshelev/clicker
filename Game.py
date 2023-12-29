@@ -1,16 +1,26 @@
 from Settings import *
 
+
 class Game:
     def __init__(self):
         self.game_loop()
+        self.button = Button(screen, 100, 100, 100, 100, colour=(0, 0, 0))
 
     def game_loop(self):
-        while True:
+        running = True
+        while running:
             clock.tick(FPS)
-            for event in pygame.event.get():
+            events = pygame.event.get()
+
+            for event in events:
                 if event.type == pygame.QUIT:
+                    running = False
                     myquit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
+                        running = False
                         myquit()
-            pygame.display.flip()
+
+            pygame_widgets.update(events)
+
+            pygame.display.update()

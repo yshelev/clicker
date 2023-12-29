@@ -1,4 +1,5 @@
-import pygame, sys
+import pygame, sys, pygame_widgets
+from pygame_widgets.button import Button
 
 SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = (800, 800)
 FPS = 60
