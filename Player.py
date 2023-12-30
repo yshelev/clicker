@@ -7,6 +7,11 @@ class Player:
         self.__add_money_per_click = 1
         self.__add_money_in_second = 0
 
+        self.__available_updates = {
+            "Бот": [1, 2, 3, 4, 5],
+            "Искуственный Интеллект": [1, 2, 3, 4, 5]
+        }
+
     def update(self) -> None:
         """
         добавляет очки игроку за одну секунду
@@ -26,5 +31,5 @@ class Player:
         возвращает текущие очки игрока
         :return:
         """
-        return self.__counter
+        return int(self.__counter)
 
