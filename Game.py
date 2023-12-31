@@ -14,7 +14,6 @@ class Game:
 
         self.player = Player()
 
-
         self.buttons = {
             "main_button":
                 Button(
@@ -34,12 +33,15 @@ class Game:
             "button_settings":
                 ButtonArray(
                     main_screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4 * 3,
-                    shape=(1, 4),
+                    shape=(1, 2),
                     border=10,
-                    texts=("настройка а", "настройка б", "настройка с", "настройка д"),
+                    texts=(
+                        settings["sound"]["name"],
+                        settings["music"]["name"]
+                    ),
                     colour="WHITE",
-                    onClicks=(print, print, print, print),
-                    onClickParams=(["a"], ["b"], ["c"], ["d"])
+                    onClicks=(self.switch, self.switch),
+                    onClickParams=(["sound"], ["music"])
                 ),
             "button_active_upgrades":
                 ButtonArray(
@@ -81,7 +83,8 @@ class Game:
                 ),
             "button_open_updates_main":
                 ButtonArray(
-                    main_screen, 0, SCREEN_HEIGHT // 8 * 7 - SCREEN_HEIGHT // 16, SCREEN_WIDTH, SCREEN_HEIGHT // 8 + SCREEN_HEIGHT // 16,
+                    main_screen, 0, SCREEN_HEIGHT // 8 * 7 - SCREEN_HEIGHT // 16, SCREEN_WIDTH,
+                                    SCREEN_HEIGHT // 8 + SCREEN_HEIGHT // 16,
                     shape=(2, 1),
                     border=20,
                     texts=("пассивные улучшения", "активные улучшения"),
@@ -115,6 +118,11 @@ class Game:
 
         }
         self.main_loop()
+
+
+
+    def switch(self, to_switch):
+        settings[to_switch]["turned"] = not settings[to_switch]["turned"]
 
     def start_main_loop(self):
         self.main_loop()
@@ -150,7 +158,7 @@ class Game:
             self.buttons["button_settings_main"]
         )
 
-        while running["main"]:
+        while running["main"]
             clock.tick(FPS)
             events = pygame.event.get()
             main_screen.fill((255, 255, 255))

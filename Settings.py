@@ -6,11 +6,11 @@ pygame.font.init()
 SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = (800, 800)
 FPS = 60
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # добавить pygame.RESIZABLE для динамического разрешения экрана.
-                                                                # работает криво)
+screen = pygame.display.set_mode(
+    (SCREEN_WIDTH, SCREEN_HEIGHT))  # добавить pygame.RESIZABLE для динамического разрешения экрана.
+                                    # работает криво)
 
 main_screen = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-
 
 clock = pygame.time.Clock()
 
@@ -20,6 +20,18 @@ running = {
     "passive_upgrades": False,
     "settings": False
 }
+
+settings = {
+    "sound": {
+        "name": "звук",
+        "turned": False
+    },
+    "music": {
+        "name": "музыка",
+        "turned": False
+    },
+}
+
 
 def myquit():
     pygame.quit()
