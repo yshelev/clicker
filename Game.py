@@ -14,6 +14,7 @@ class Game:
 
         self.player = Player()
 
+
         self.buttons = {
             "main_button":
                 Button(
@@ -42,23 +43,41 @@ class Game:
                 ),
             "button_active_upgrades":
                 ButtonArray(
-                    main_screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4 * 3,
-                    shape=(1, 4),
+                    main_screen, SCREEN_WIDTH // 5 * 3, SCREEN_HEIGHT // 16, SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4 * 3,
+                    shape=(1, 3),
                     border=10,
-                    texts=("активное улучшение а", "активное улучшение б", "активное улучшение с", "активное улучшение д"),
+                    texts=(
+                        self.player.get_upgrades("active", "double_click", "name"),
+                        self.player.get_upgrades("active", "triple_click", "name"),
+                        self.player.get_upgrades("active", "quadro_click", "name")
+                    ),
                     colour="WHITE",
-                    onClicks=(print, print, print, print),
-                    onClickParams=(["a"], ["b"], ["c"], ["d"])
+                    onClicks=(
+                        self.player.buy_active_upgrade,
+                        self.player.buy_active_upgrade,
+                        self.player.buy_active_upgrade,
+                    ),
+                    onClickParams=(["double_click"], ["triple_click"], ["quadro_click"])
                 ),
             "button_passive_upgrades":
                 ButtonArray(
                     main_screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4 * 3,
                     shape=(1, 4),
                     border=10,
-                    texts=("пассивное улучшение а", "пассивное улучшение б", "пассивное улучшение с", "пассивное улучшение д"),
+                    texts=(
+                        self.player.get_upgrades("passive", "bot", "name"),
+                        self.player.get_upgrades("passive", "AI", "name"),
+                        self.player.get_upgrades("passive", "student", "name"),
+                        self.player.get_upgrades("passive", "chinese", "name"),
+                    ),
                     colour="WHITE",
-                    onClicks=(print, print, print, print),
-                    onClickParams=(["a"], ["b"], ["c"], ["d"])
+                    onClicks=(
+                        self.player.buy_passive_upgrades,
+                        self.player.buy_passive_upgrades,
+                        self.player.buy_passive_upgrades,
+                        self.player.buy_passive_upgrades
+                    ),
+                    onClickParams=(["bot"], ["AI"], ["student"], ["chinese"])
                 ),
             "button_open_updates_main":
                 ButtonArray(
@@ -95,7 +114,6 @@ class Game:
                 ),
 
         }
-
         self.main_loop()
 
     def start_main_loop(self):
