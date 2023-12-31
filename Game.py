@@ -158,7 +158,7 @@ class Game:
             self.buttons["button_settings_main"]
         )
 
-        while running["main"]
+        while running["main"]:
             clock.tick(FPS)
             events = pygame.event.get()
             main_screen.fill((255, 255, 255))
