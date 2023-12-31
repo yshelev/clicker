@@ -9,7 +9,7 @@ class Game:
         self.counter = 0
 
         self.fonts = {
-            "menu_font": "data/menu_font.ttf"
+            "menu_font": "data/fonts/menu_font.ttf"
         }
 
         self.player = Player()
@@ -27,19 +27,49 @@ class Game:
                     text="голосуй за молодежную столицу!",
                     textHAlign="left",  # выравнивание по ширине
                     textVAlign="mid",  # выравнивание по высоте
+                    radius=SCREEN_WIDTH // 8,
                     onClick=self.main_on_click,
-                    font=self.get_font(8, "menu_font")
+                ),
+            "button_settings":
+                ButtonArray(
+                    main_screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4 * 3,
+                    shape=(1, 4),
+                    border=10,
+                    texts=("настройка а", "настройка б", "настройка с", "настройка д"),
+                    colour="WHITE",
+                    onClicks=(print, print, print, print),
+                    onClickParams=(["a"], ["b"], ["c"], ["d"])
+                ),
+            "button_active_upgrades":
+                ButtonArray(
+                    main_screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4 * 3,
+                    shape=(1, 4),
+                    border=10,
+                    texts=("активное улучшение а", "активное улучшение б", "активное улучшение с", "активное улучшение д"),
+                    colour="WHITE",
+                    onClicks=(print, print, print, print),
+                    onClickParams=(["a"], ["b"], ["c"], ["d"])
+                ),
+            "button_passive_upgrades":
+                ButtonArray(
+                    main_screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4 * 3,
+                    shape=(1, 4),
+                    border=10,
+                    texts=("пассивное улучшение а", "пассивное улучшение б", "пассивное улучшение с", "пассивное улучшение д"),
+                    colour="WHITE",
+                    onClicks=(print, print, print, print),
+                    onClickParams=(["a"], ["b"], ["c"], ["d"])
                 ),
             "button_open_updates_main":
                 ButtonArray(
-                    main_screen, 0, SCREEN_HEIGHT // 8 * 7 - 50, SCREEN_WIDTH, SCREEN_HEIGHT // 8 + 50,
+                    main_screen, 0, SCREEN_HEIGHT // 8 * 7 - SCREEN_HEIGHT // 16, SCREEN_WIDTH, SCREEN_HEIGHT // 8 + SCREEN_HEIGHT // 16,
                     shape=(2, 1),
                     border=20,
                     texts=("пассивные улучшения", "активные улучшения"),
                     colour="WHITE",
                     onClicks=(self.passive_upgrades_loop, self.active_upgrades_loop),
                 ),
-            "button_settings":
+            "button_settings_main":
                 Button(
                     main_screen, SCREEN_WIDTH // 8 * 7, 0, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8,
                     colour="WHITE",
@@ -49,37 +79,26 @@ class Game:
                     onClick=self.settings_loop,
 
                 ),
-            "buttons_back": {
-                "passive_upgrades":
-                    Button(
-                        screen_active_upgrades_loop, SCREEN_WIDTH // 8 * 3, SCREEN_HEIGHT - 100, 100, 100,
-                        colour="WHITE",
-                        borderThickness=3,
-                        borderColour="BLACK",
-                        text="BACK",
-                        onClick=self.main_loop,
-                    ),
-                "active_upgrades":
-                    Button(
-                        screen_passive_upgrades_loop, SCREEN_WIDTH // 8 * 3, SCREEN_HEIGHT - 100, 100, 100,
-                        colour="WHITE",
-                        borderThickness=3,
-                        borderColour="BLACK",
-                        text="BACK",
-                        onClick=self.main_loop
-                    ),
-                "settings":
-                    Button(
-                        screen_settings, SCREEN_WIDTH // 8 * 3, SCREEN_HEIGHT - 100, 100, 100,
-                        colour="WHITE",
-                        borderThickness=3,
-                        borderColour="BLACK",
-                        text="BACK",
-                        onClick=self.main_loop
-                    )
-            }
+            "button_back":
+                Button(
+                    main_screen, SCREEN_WIDTH // 8 * 3, SCREEN_HEIGHT // 8 * 7, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8,
+                    colour="GREEN",
+                    textColour="BLUE",
+                    borderThickness=10,
+                    borderColour="GREEN",
+                    pressedBorderColour="PURPLE",
+                    pressedColour=(50, 50, 50),
+                    text="голосуй за молодежную столицу!",
+                    textHAlign="left",  # выравнивание по ширине
+                    textVAlign="mid",  # выравнивание по высоте
+                    onClick=self.main_loop
+                ),
 
         }
+
+        self.main_loop()
+
+    def start_main_loop(self):
         self.main_loop()
 
     def get_font(self, font_size: int, name: str) -> pygame.font.Font:
@@ -107,6 +126,12 @@ class Game:
         self.switching_between_activities()
         running["main"] = True
 
+        self.show_buttons_group(
+            self.buttons["main_button"],
+            self.buttons["button_open_updates_main"],
+            self.buttons["button_settings_main"]
+        )
+
         while running["main"]:
             clock.tick(FPS)
             events = pygame.event.get()
@@ -121,17 +146,22 @@ class Game:
                         running["main"] = False
                         myquit()
 
+            self.draw_score(main_screen)
             self.update(main_screen, events)
 
     def active_upgrades_loop(self):
-
         self.switching_between_activities()
         running["active_upgrades"] = True
+
+        self.show_buttons_group(
+            self.buttons["button_back"],
+            self.buttons["button_active_upgrades"]
+        )
 
         while running["active_upgrades"]:
             clock.tick(FPS)
             events = pygame.event.get()
-            screen_active_upgrades_loop.fill((255, 255, 255))
+            main_screen.fill((255, 255, 255))
 
             for event in events:
                 if event.type == pygame.QUIT:
@@ -142,17 +172,22 @@ class Game:
                         running["active_upgrades"] = False
                         myquit()
 
-            self.update(screen_active_upgrades_loop, events)
+            self.update(main_screen, events)
 
     def settings_loop(self):
 
         self.switching_between_activities()
         running["settings"] = True
 
+        self.show_buttons_group(
+            self.buttons["button_back"],
+            self.buttons["button_settings"]
+        )
+
         while running["settings"]:
             clock.tick(FPS)
             events = pygame.event.get()
-            screen_settings.fill((255, 255, 255))
+            main_screen.fill((255, 255, 255))
 
             for event in events:
                 if event.type == pygame.QUIT:
@@ -163,17 +198,21 @@ class Game:
                         running["settings"] = False
                         myquit()
 
-            self.update(screen_settings, events)
+            self.update(main_screen, events)
 
     def passive_upgrades_loop(self):
-
         self.switching_between_activities()
         running["passive_upgrades"] = True
+
+        self.show_buttons_group(
+            self.buttons["button_back"],
+            self.buttons["button_passive_upgrades"]
+        )
 
         while running["passive_upgrades"]:
             clock.tick(FPS)
             events = pygame.event.get()
-            screen_passive_upgrades_loop.fill((255, 255, 255))
+            main_screen.fill((255, 255, 255))
 
             for event in events:
                 if event.type == pygame.QUIT:
@@ -184,15 +223,28 @@ class Game:
                         running["passive_upgrades"] = False
                         myquit()
 
-            self.update(screen_passive_upgrades_loop, events)
-
-    def switching_between_activities(self):
-        for i in running.keys():
-            running[i] = False
+            self.update(main_screen, events)
 
     def update(self, surface: pygame.Surface, events) -> None:
-
         pygame_widgets.update(events)
         self.player.update()
         screen.blit(surface, (0, 0))
         pygame.display.update()
+
+    def draw_score(self, surface):
+        score_surface = self.get_font(30, "menu_font").render(
+            f"Ваших голосов: {self.player.get_counter()}", False, "BLACK")
+        surface.blit(score_surface, (100, 400))
+
+    def show_buttons_group(self, *buttons):
+        for button in self.buttons:
+            self.buttons[button].hide()
+
+        for button in buttons:
+            button.show()
+            button.enable()
+
+    @staticmethod
+    def switching_between_activities():
+        for i in running.keys():
+            running[i] = False
