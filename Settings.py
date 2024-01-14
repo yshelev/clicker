@@ -18,7 +18,8 @@ running = {
     "main": False,
     "active_upgrades": False,
     "passive_upgrades": False,
-    "settings": False
+    "settings": False,
+    "competitors": False
 }
 
 settings = {

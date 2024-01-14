@@ -85,11 +85,11 @@ class Game:
                 ButtonArray(
                     main_screen, 0, SCREEN_HEIGHT // 8 * 7 - SCREEN_HEIGHT // 16, SCREEN_WIDTH,
                                     SCREEN_HEIGHT // 8 + SCREEN_HEIGHT // 16,
-                    shape=(2, 1),
+                    shape=(3, 1),
                     border=20,
-                    texts=("пассивные улучшения", "активные улучшения"),
+                    texts=("пассивные улучшения", "активные улучшения", "счет других участников"),
                     colour="WHITE",
-                    onClicks=(self.passive_upgrades_loop, self.active_upgrades_loop),
+                    onClicks=(self.passive_upgrades_loop, self.active_upgrades_loop, self.competitors_score),
                 ),
             "button_settings_main":
                 Button(
@@ -256,6 +256,31 @@ class Game:
                         myquit()
             self.draw_passive_updates_text(main_screen)
             self.update(main_screen, events)
+
+    def competitors_score(self):
+        self.switching_between_activities()
+        running["competitors"] = True
+
+        self.show_buttons_group(
+            self.buttons["button_back"]
+        )
+
+        while running["competitors"]:
+            clock.tick(FPS)
+            events = pygame.event.get()
+            main_screen.fill((255, 255, 255))
+
+            for event in events:
+                if event.type == pygame.QUIT:
+                    running["competitors"] = False
+                    myquit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        running["competitors"] = False
+                        myquit()
+
+            self.update(main_screen, events)
+
 
     def update(self, surface: pygame.Surface, events) -> None:
         pygame_widgets.update(events)
