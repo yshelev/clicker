@@ -29,7 +29,7 @@ class Player:
 
                 "student": {
                     "cost": 1_000_000,
-                    "description": "теперь студенты ИМКТ голосуют за вас! (не забудьте +10% к рейтингу)",
+                    "description": "теперь  студенты ИМКТ голосуют за вас! (не забудьте +10% к рейтингу)",
                     "name": "студенты ИМКТ",
                     "update_for_level": 100,
                     "levels": [False for _ in range(5)],
@@ -63,7 +63,7 @@ class Player:
                 },
 
                 "quadro_click": {
-                    "cost": 10_000_000,
+                    "cost": 2_000_000,
                     "name": "ЧЕТВЕРНОЙ клик",
                     "description": "макросы.",
                     "multiplier": 4,
@@ -95,6 +95,9 @@ class Player:
 
     def get_upgrades(self, type_: str, ID: str, parameter: str) -> str | int | bool | list[bool] | float:
         return self.__upgrades[type_][ID][parameter]
+
+    def get_all_upgrades(self, type_: str):
+        return self.__upgrades[type_]
 
     def buy_passive_upgrades(self, ID: str) -> int:
         # в Game можно обернуть эту функцию в другую, которая будет выводить текст в зависимости от exit_code
@@ -141,3 +144,5 @@ class Player:
                 exit_code = 1
 
         return exit_code
+
+

@@ -117,9 +117,14 @@ class Game:
                 ),
 
         }
+
+        self.upgrades = {
+            "passive":
+                self.player.get_all_upgrades("passive"),
+            "active":
+                self.player.get_all_upgrades("active")
+        }
         self.main_loop()
-
-
 
     def switch(self, to_switch):
         settings[to_switch]["turned"] = not settings[to_switch]["turned"]
@@ -198,6 +203,7 @@ class Game:
                         running["active_upgrades"] = False
                         myquit()
 
+            self.draw_active_update_text(main_screen)
             self.update(main_screen, events)
 
     def settings_loop(self):
@@ -248,7 +254,7 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         running["passive_upgrades"] = False
                         myquit()
-
+            self.draw_passive_updates_text(main_screen)
             self.update(main_screen, events)
 
     def update(self, surface: pygame.Surface, events) -> None:
@@ -259,8 +265,32 @@ class Game:
 
     def draw_score(self, surface):
         score_surface = self.get_font(30, "menu_font").render(
-            f"Ваших голосов: {self.player.get_counter()}", False, "BLACK")
+            f"Ваших голосов: {self.player.get_counter()}", False, "BLACK"
+        )
         surface.blit(score_surface, (100, 400))
+
+    def draw_passive_updates_text(self, surface):
+        start_text_y, delta_text_y = SCREEN_HEIGHT // 6, SCREEN_HEIGHT // 5
+        start_text_x, delta_text_x = SCREEN_WIDTH // 2, 0
+        for index, upgrade in enumerate(self.upgrades["passive"]):
+            passive_upgrade_surface = self.get_font(SCREEN_HEIGHT // 20, "menu_font").render(
+                f"{self.upgrades["passive"][upgrade]["cost"]}", False,
+                "BLACK"
+            )
+            surface.blit(passive_upgrade_surface,
+                         (start_text_x + delta_text_x * index, start_text_y + delta_text_y * index))
+
+
+    def draw_active_update_text(self, surface):
+        start_text_y, delta_text_y = SCREEN_HEIGHT // 5, SCREEN_HEIGHT // 4
+        start_text_x, delta_text_x = SCREEN_WIDTH // 4, 0
+        for index, upgrade in enumerate(self.upgrades["active"]):
+            active_upgrade_surface = self.get_font(SCREEN_HEIGHT // 20, "menu_font").render(
+                f"{self.upgrades["active"][upgrade]["cost"]}", False,
+                "BLACK"
+            )
+            surface.blit(active_upgrade_surface,
+                         (start_text_x + delta_text_x * index, start_text_y + delta_text_y * index))
 
     def show_buttons_group(self, *buttons):
         for button in self.buttons:
