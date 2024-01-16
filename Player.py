@@ -113,8 +113,8 @@ class Player:
 
         current_index = sum(self.__upgrades["passive"][ID]["levels"])
         if current_index != len(self.__upgrades["passive"][ID]["levels"]):
-            if self.__counter >= self.__upgrades["passive"][ID]["cost"] * self.__upgrades["passive"][ID]["cost_multiplier"]:
-                self.__counter -= self.__upgrades["passive"][ID]["cost"] * self.__upgrades["passive"][ID]["cost_multiplier"]
+            if self.__counter >= self.__upgrades["passive"][ID]["cost"] + sum(self.__upgrades["passive"][ID]["levels"]) * self.__upgrades["passive"][ID]["cost_multiplier"]:
+                self.__counter -= self.__upgrades["passive"][ID]["cost"] + sum(self.__upgrades["passive"][ID]["levels"]) * self.__upgrades["passive"][ID]["cost_multiplier"]
                 self.__upgrades["passive"][ID]["levels"][current_index] = True
                 self.__add_money_in_second += self.__upgrades["passive"][ID]["update_for_level"]
                 exit_code = 0

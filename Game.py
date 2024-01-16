@@ -299,7 +299,7 @@ class Game:
         start_text_x, delta_text_x = SCREEN_WIDTH // 2, 0
         for index, upgrade in enumerate(self.upgrades["passive"]):
             passive_upgrade_surface = self.get_font(SCREEN_HEIGHT // 20, "menu_font").render(
-                f"{self.upgrades["passive"][upgrade]["cost"]}", False,
+                f"{int(self.upgrades["passive"][upgrade]["cost"] + sum(self.upgrades["passive"][upgrade]["levels"]) * self.upgrades["passive"][upgrade]["cost_multiplier"])}", False,
                 "BLACK"
             )
             surface.blit(passive_upgrade_surface,
@@ -311,7 +311,7 @@ class Game:
         start_text_x, delta_text_x = SCREEN_WIDTH // 4, 0
         for index, upgrade in enumerate(self.upgrades["active"]):
             active_upgrade_surface = self.get_font(SCREEN_HEIGHT // 20, "menu_font").render(
-                f"{self.upgrades["active"][upgrade]["cost"]}", False,
+                f"{int(self.upgrades["active"][upgrade]["cost"] * (not self.upgrades["active"][upgrade]["levels"]))}", False,
                 "BLACK"
             )
             surface.blit(active_upgrade_surface,
