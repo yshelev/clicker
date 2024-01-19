@@ -14,6 +14,12 @@ class Game:
 
         self.player = Player()
 
+        self.backgrounds = {
+            "main": pygame.transform.scale(pygame.image.load("data/backgrounds/фон кликер затемненный.png"), (SCREEN_WIDTH, SCREEN_HEIGHT))
+        }
+
+        self.background = self.backgrounds["main"]
+
         self.buttons = {
             "main_button":
                 Button(
@@ -154,6 +160,8 @@ class Game:
         основный цикл игры.
         :return None:
         """
+        self.background = self.backgrounds["main"]
+
         self.switching_between_activities()
         running["main"] = True
 
@@ -281,8 +289,8 @@ class Game:
 
             self.update(main_screen, events)
 
-
     def update(self, surface: pygame.Surface, events) -> None:
+        surface.blit(self.background, (0, 0))
         pygame_widgets.update(events)
         self.player.update()
         screen.blit(surface, (0, 0))
@@ -299,19 +307,20 @@ class Game:
         start_text_x, delta_text_x = SCREEN_WIDTH // 2, 0
         for index, upgrade in enumerate(self.upgrades["passive"]):
             passive_upgrade_surface = self.get_font(SCREEN_HEIGHT // 20, "menu_font").render(
-                f"{int(self.upgrades["passive"][upgrade]["cost"] + sum(self.upgrades["passive"][upgrade]["levels"]) * self.upgrades["passive"][upgrade]["cost_multiplier"])}", False,
+                f"{int(self.upgrades["passive"][upgrade]["cost"] + sum(self.upgrades["passive"][upgrade]["levels"]) * self.upgrades["passive"][upgrade]["cost_multiplier"])}",
+                False,
                 "BLACK"
             )
             surface.blit(passive_upgrade_surface,
                          (start_text_x + delta_text_x * index, start_text_y + delta_text_y * index))
-
 
     def draw_active_update_text(self, surface):
         start_text_y, delta_text_y = SCREEN_HEIGHT // 5, SCREEN_HEIGHT // 4
         start_text_x, delta_text_x = SCREEN_WIDTH // 4, 0
         for index, upgrade in enumerate(self.upgrades["active"]):
             active_upgrade_surface = self.get_font(SCREEN_HEIGHT // 20, "menu_font").render(
-                f"{int(self.upgrades["active"][upgrade]["cost"] * (not self.upgrades["active"][upgrade]["levels"]))}", False,
+                f"{int(self.upgrades["active"][upgrade]["cost"] * (not self.upgrades["active"][upgrade]["levels"]))}",
+                False,
                 "BLACK"
             )
             surface.blit(active_upgrade_surface,
