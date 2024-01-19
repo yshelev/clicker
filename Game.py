@@ -9,119 +9,129 @@ class Game:
         self.counter = 0
 
         self.fonts = {
-            "menu_font": "data/fonts/menu_font.ttf"
+            "menu_font": "data/fonts/menu_font.ttf",
+            "button_font": "data/fonts/SAIBA-45-Regular-(v1.1).otf",
+            "rd_font": "data/fonts/PressStart2P-Regular.ttf"
         }
 
         self.player = Player()
 
         self.backgrounds = {
-            "main": pygame.transform.scale(pygame.image.load("data/backgrounds/фон кликер затемненный.png"), (SCREEN_WIDTH, SCREEN_HEIGHT))
+            "main": pygame.transform.scale(pygame.image.load("data/backgrounds/фон кликер с надписями 2.png"),
+                                           (SCREEN_WIDTH, SCREEN_HEIGHT)),
+        }
+
+        self.images = {
+            "button_main": {
+                "inactive":
+                    pygame.image.load("data/images/кнопка голосовать1.png"),
+                "hover":
+                    pygame.image.load("data/images/кнопка голосовать2.png"),
+                "pressed":
+                    pygame.image.load("data/images/кнопка голосовать3.png")
+            },
+            "button_open_active_upgrades": {
+                "inactive":
+                    pygame.image.load("data/images/кнопка активные улучшения1.png"),
+                "hover":
+                    pygame.image.load("data/images/кнопка активные улучшения2.png"),
+                "pressed":
+                    pygame.image.load("data/images/кнопка активные улучшения3.png"),
+            },
+            "button_open_passive_upgrades": {
+                "inactive":
+                    pygame.image.load("data/images/кнопка пассивные улучшения1.png"),
+                "hover":
+                    pygame.image.load("data/images/кнопка пассивные улучшения2.png"),
+                "pressed":
+                    pygame.image.load("data/images/кнопка пассивные улучшения3.png"),
+            },
+            "button_open_competitors_score": {
+                "inactive":
+                    pygame.image.load("data/images/кнопка счет других участников1.png"),
+                "hover":
+                    pygame.image.load("data/images/кнопка счет других участников2.png"),
+                "pressed":
+                    pygame.image.load("data/images/кнопка счет других участников3.png"),
+            },
+            "button_back": {
+                "inactive":
+                    pygame.image.load("data/images/кнопка назад1.png"),
+                "hover":
+                    pygame.image.load("data/images/кнопка назад2.png"),
+                "pressed":
+                    pygame.image.load("data/images/кнопка назад3.png"),
+            }
         }
 
         self.background = self.backgrounds["main"]
 
         self.buttons = {
-            "main_button":
+            "main":
+                CircleButton(
+                    surface=main_screen,
+                    center_x=SCREEN_WIDTH // 2,
+                    center_y=SCREEN_HEIGHT // 2,
+                    width=SCREEN_WIDTH // 3,
+                    height=SCREEN_HEIGHT // 3,
+                    radius=SCREEN_HEIGHT // 8,
+                    inactive_image=self.images["button_main"]["inactive"],
+                    hover_image=self.images["button_main"]["hover"],
+                    pressed_image=self.images["button_main"]["pressed"],
+                    on_click=self.main_on_click,
+                ),
+            "open_active_upgrades":
                 Button(
-                    main_screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4,
-                    colour="GREEN",
-                    textColour="BLUE",
-                    borderThickness=10,
-                    borderColour="GREEN",
-                    pressedBorderColour="PURPLE",
-                    pressedColour=(50, 50, 50),
-                    text="голосуй за молодежную столицу!",
-                    textHAlign="left",  # выравнивание по ширине
-                    textVAlign="mid",  # выравнивание по высоте
-                    radius=SCREEN_WIDTH // 8,
-                    onClick=self.main_on_click,
+                    surface=main_screen,
+                    x=0,
+                    y=SCREEN_HEIGHT // 5 * 4,
+                    width=SCREEN_WIDTH // 3,
+                    height=SCREEN_HEIGHT // 5,
+                    inactive_image=self.images["button_open_active_upgrades"]["inactive"],
+                    hover_image=self.images["button_open_active_upgrades"]["hover"],
+                    pressed_image=self.images["button_open_active_upgrades"]["pressed"],
+                    on_click=self.active_upgrades_loop,
+                    padding=10
                 ),
-            "button_settings":
-                ButtonArray(
-                    main_screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4 * 3,
-                    shape=(1, 2),
-                    border=10,
-                    texts=(
-                        settings["sound"]["name"],
-                        settings["music"]["name"]
-                    ),
-                    colour="WHITE",
-                    onClicks=(self.switch, self.switch),
-                    onClickParams=(["sound"], ["music"])
-                ),
-            "button_active_upgrades":
-                ButtonArray(
-                    main_screen, SCREEN_WIDTH // 5 * 3, SCREEN_HEIGHT // 16, SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4 * 3,
-                    shape=(1, 3),
-                    border=10,
-                    texts=(
-                        self.player.get_upgrades("active", "double_click", "name"),
-                        self.player.get_upgrades("active", "triple_click", "name"),
-                        self.player.get_upgrades("active", "quadro_click", "name")
-                    ),
-                    colour="WHITE",
-                    onClicks=(
-                        self.player.buy_active_upgrade,
-                        self.player.buy_active_upgrade,
-                        self.player.buy_active_upgrade,
-                    ),
-                    onClickParams=(["double_click"], ["triple_click"], ["quadro_click"])
-                ),
-            "button_passive_upgrades":
-                ButtonArray(
-                    main_screen, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8, SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4 * 3,
-                    shape=(1, 4),
-                    border=10,
-                    texts=(
-                        self.player.get_upgrades("passive", "bot", "name"),
-                        self.player.get_upgrades("passive", "AI", "name"),
-                        self.player.get_upgrades("passive", "student", "name"),
-                        self.player.get_upgrades("passive", "chinese", "name"),
-                    ),
-                    colour="WHITE",
-                    onClicks=(
-                        self.player.buy_passive_upgrades,
-                        self.player.buy_passive_upgrades,
-                        self.player.buy_passive_upgrades,
-                        self.player.buy_passive_upgrades
-                    ),
-                    onClickParams=(["bot"], ["AI"], ["student"], ["chinese"])
-                ),
-            "button_open_updates_main":
-                ButtonArray(
-                    main_screen, 0, SCREEN_HEIGHT // 8 * 7 - SCREEN_HEIGHT // 16, SCREEN_WIDTH,
-                                    SCREEN_HEIGHT // 8 + SCREEN_HEIGHT // 16,
-                    shape=(3, 1),
-                    border=20,
-                    texts=("пассивные улучшения", "активные улучшения", "счет других участников"),
-                    colour="WHITE",
-                    onClicks=(self.passive_upgrades_loop, self.active_upgrades_loop, self.competitors_score),
-                ),
-            "button_settings_main":
+            "open_passive_upgrades":
                 Button(
-                    main_screen, SCREEN_WIDTH // 8 * 7, 0, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8,
-                    colour="WHITE",
-                    borderThickness=3,
-                    borderColour="BLACK",
-                    text="importImageSettings",
-                    onClick=self.settings_loop,
-
+                    surface=main_screen,
+                    x=SCREEN_WIDTH // 3,
+                    y=SCREEN_HEIGHT // 5 * 4,
+                    width=SCREEN_WIDTH // 3,
+                    height=SCREEN_HEIGHT // 5,
+                    inactive_image=self.images["button_open_passive_upgrades"]["inactive"],
+                    hover_image=self.images["button_open_passive_upgrades"]["hover"],
+                    pressed_image=self.images["button_open_passive_upgrades"]["pressed"],
+                    on_click=self.passive_upgrades_loop,
+                    padding=10
                 ),
-            "button_back":
+            "open_competitors_score":
                 Button(
-                    main_screen, SCREEN_WIDTH // 8 * 3, SCREEN_HEIGHT // 8 * 7, SCREEN_WIDTH // 8, SCREEN_HEIGHT // 8,
-                    colour="GREEN",
-                    textColour="BLUE",
-                    borderThickness=10,
-                    borderColour="GREEN",
-                    pressedBorderColour="PURPLE",
-                    pressedColour=(50, 50, 50),
-                    text="голосуй за молодежную столицу!",
-                    textHAlign="left",  # выравнивание по ширине
-                    textVAlign="mid",  # выравнивание по высоте
-                    onClick=self.main_loop
+                    surface=main_screen,
+                    x=SCREEN_WIDTH // 3 * 2,
+                    y=SCREEN_HEIGHT // 5 * 4,
+                    width=SCREEN_WIDTH // 3,
+                    height=SCREEN_HEIGHT // 5,
+                    inactive_image=self.images["button_open_competitors_score"]["inactive"],
+                    hover_image=self.images["button_open_competitors_score"]["hover"],
+                    pressed_image=self.images["button_open_competitors_score"]["pressed"],
+                    on_click=self.competitors_score,
+                    padding=10,
                 ),
-
+            "back":
+                Button(
+                    surface=main_screen,
+                    x=SCREEN_WIDTH // 2,
+                    y=SCREEN_HEIGHT // 20 * 19,
+                    width=SCREEN_WIDTH // 4,
+                    height=SCREEN_HEIGHT // 20,
+                    inactive_image=self.images["button_back"]["inactive"],
+                    hover_image=self.images["button_back"]["hover"],
+                    pressed_image=self.images["button_back"]["pressed"],
+                    on_click=self.main_loop,
+                    padding=10
+                )
         }
 
         self.upgrades = {
@@ -166,9 +176,10 @@ class Game:
         running["main"] = True
 
         self.show_buttons_group(
-            self.buttons["main_button"],
-            self.buttons["button_open_updates_main"],
-            self.buttons["button_settings_main"]
+            self.buttons["main"],
+            self.buttons["open_active_upgrades"],
+            self.buttons["open_passive_upgrades"],
+            self.buttons["open_competitors_score"]
         )
 
         while running["main"]:
@@ -185,15 +196,14 @@ class Game:
                         running["main"] = False
                         myquit()
 
-            self.draw_score(main_screen)
-            self.update(main_screen, events)
+            self.update(main_screen, events, [self.draw_score], [[main_screen]])
 
     def active_upgrades_loop(self):
         self.switching_between_activities()
         running["active_upgrades"] = True
 
         self.show_buttons_group(
-            self.buttons["button_back"],
+            self.buttons["back"],
             self.buttons["button_active_upgrades"]
         )
 
@@ -212,7 +222,7 @@ class Game:
                         myquit()
 
             self.draw_active_update_text(main_screen)
-            self.update(main_screen, events)
+            self.update(main_screen, events, [self.draw_active_update_text], [[main_screen]])
 
     def settings_loop(self):
 
@@ -220,7 +230,7 @@ class Game:
         running["settings"] = True
 
         self.show_buttons_group(
-            self.buttons["button_back"],
+            self.buttons["back"],
             self.buttons["button_settings"]
         )
 
@@ -238,14 +248,14 @@ class Game:
                         running["settings"] = False
                         myquit()
 
-            self.update(main_screen, events)
+            self.update(main_screen, events, [], [])
 
     def passive_upgrades_loop(self):
         self.switching_between_activities()
         running["passive_upgrades"] = True
 
         self.show_buttons_group(
-            self.buttons["button_back"],
+            self.buttons["back"],
             self.buttons["button_passive_upgrades"]
         )
 
@@ -263,14 +273,14 @@ class Game:
                         running["passive_upgrades"] = False
                         myquit()
             self.draw_passive_updates_text(main_screen)
-            self.update(main_screen, events)
+            self.update(main_screen, events, [self.draw_passive_updates_text], [[main_screen]])
 
     def competitors_score(self):
         self.switching_between_activities()
         running["competitors"] = True
 
         self.show_buttons_group(
-            self.buttons["button_back"]
+            self.buttons["back"]
         )
 
         while running["competitors"]:
@@ -287,20 +297,29 @@ class Game:
                         running["competitors"] = False
                         myquit()
 
-            self.update(main_screen, events)
+            self.update(main_screen, events, [], [])
 
-    def update(self, surface: pygame.Surface, events) -> None:
+    def update(self, surface: pygame.Surface, events, funcs, funcs_params) -> None:
         surface.blit(self.background, (0, 0))
-        pygame_widgets.update(events)
+        for param_index, func in enumerate(funcs):
+            func(*funcs_params[param_index])
+        self.update_buttons(events)
         self.player.update()
         screen.blit(surface, (0, 0))
         pygame.display.update()
 
+    def update_buttons(self, events):
+        for buttons in self.buttons.keys():
+            for event in events:
+                self.buttons[buttons].handle_event(event=event)
+                print(self.player.get_counter())
+            self.buttons[buttons].draw()
+
     def draw_score(self, surface):
-        score_surface = self.get_font(30, "menu_font").render(
-            f"Ваших голосов: {self.player.get_counter()}", False, "BLACK"
+        score_surface = self.get_font(40, "rd_font").render(
+            f"{self.player.get_counter()}", False, "WHITE"
         )
-        surface.blit(score_surface, (100, 400))
+        surface.blit(score_surface, (SCREEN_WIDTH // 1.75, SCREEN_HEIGHT // 1.37123054904489))
 
     def draw_passive_updates_text(self, surface):
         start_text_y, delta_text_y = SCREEN_HEIGHT // 6, SCREEN_HEIGHT // 5
@@ -332,7 +351,6 @@ class Game:
 
         for button in buttons:
             button.show()
-            button.enable()
 
     @staticmethod
     def switching_between_activities():

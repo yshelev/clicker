@@ -1,5 +1,5 @@
-import pygame, sys, pygame_widgets
-from pygame_widgets.button import Button, ButtonArray
+import pygame, sys
+from Button import *
 
 pygame.font.init()
 
