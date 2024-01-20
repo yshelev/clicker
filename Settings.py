@@ -25,7 +25,7 @@ running = {
 settings = {
     "sound": {
         "name": "звук",
-        "turned": False
+        "turned": True
     },
     "music": {
         "name": "музыка",

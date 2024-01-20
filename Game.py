@@ -2,6 +2,7 @@ import pygame.font
 
 from Button import *
 from Player import Player
+from Conqueror import Conqueror
 
 
 class Game:
@@ -15,6 +16,8 @@ class Game:
         }
 
         self.player = Player()
+
+        self.moscow = Conqueror()
 
         self.sounds = {
             "background_music":
@@ -42,11 +45,11 @@ class Game:
         self.images = {
             "button_main": {
                 "inactive":
-                    pygame.image.load("data/images/кнопка голосовать1.png"),
+                    pygame.image.load("data/images/кнопка голосовать 1.png"),
                 "hover":
-                    pygame.image.load("data/images/кнопка голосовать2.png"),
+                    pygame.image.load("data/images/кнопка голосовать 2.png"),
                 "pressed":
-                    pygame.image.load("data/images/кнопка голосовать3.png")
+                    pygame.image.load("data/images/кнопка голосовать 3.png")
             },
             "button_open_active_upgrades": {
                 "inactive":
@@ -339,9 +342,11 @@ class Game:
         settings[to_switch]["turned"] = not settings[to_switch]["turned"]
         for button in self.buttons:
             self.buttons[button].set_sound()
+        self.set_sound()
 
     def set_sound(self):
         for sound in self.sounds.values():
+            print(sound)
             sound.set_volume(settings["sound"]["turned"])
 
     def start_main_loop(self):
