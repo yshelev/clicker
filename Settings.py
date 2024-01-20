@@ -1,7 +1,7 @@
 import pygame, sys
-from Button import *
 
 pygame.font.init()
+pygame.mixer.init()
 
 SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = (800, 800)
 FPS = 60
