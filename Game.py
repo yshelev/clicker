@@ -2,7 +2,7 @@ import pygame.font
 
 from Button import *
 from Player import Player
-from Conqueror import Conqueror
+from Competitor import Competitor
 
 
 class Game:
@@ -17,7 +17,7 @@ class Game:
 
         self.player = Player()
 
-        self.moscow = Conqueror()
+        self.moscow = Competitor()
 
         self.sounds = {
             "background_music":
@@ -45,11 +45,11 @@ class Game:
         self.images = {
             "button_main": {
                 "inactive":
-                    pygame.image.load("data/images/кнопка голосовать 1.png"),
+                    pygame.image.load("data/images/ГОЛОСОВАНИЕ 1.png"),
                 "hover":
-                    pygame.image.load("data/images/кнопка голосовать 2.png"),
+                    pygame.image.load("data/images/ГОЛОСОВАНИЕ 2.png"),
                 "pressed":
-                    pygame.image.load("data/images/кнопка голосовать 3.png")
+                    pygame.image.load("data/images/ГОЛОСОВАНИЕ 3.png")
             },
             "button_open_active_upgrades": {
                 "inactive":
@@ -514,6 +514,9 @@ class Game:
                         myquit()
 
             self.update(main_screen, events, [], [])
+
+    def competitors_update(self):
+        pass
 
     def update(self, surface: pygame.Surface, events, funcs, funcs_params) -> None:
         surface.blit(self.background, (0, 0))
