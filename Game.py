@@ -127,7 +127,8 @@ class Game:
             },
             "digit": {
                 str(i):
-                    pygame.transform.scale(pygame.image.load("data/images/ЦИФРЫ.png"), (654, 40)).subsurface(
+                    pygame.transform.scale(pygame.image.load("data/images/ЦИФРЫ.png"), (pygame.image.load("data"
+                                                                                                          "/images/ЦИФРЫ.png").get_width(), 40)).subsurface(
                         (14 * (i + 1)) + (14 * i) + (40 * max(0, (i - 2))) + (18 if i > 1 else 0) + (
                             40 if i > 0 else 0),
                         0,
@@ -194,8 +195,8 @@ class Game:
             "back":
                 Button(
                     surface=main_screen,
-                    x=0,
-                    y=SCREEN_HEIGHT / 10 * 9,
+                    x=SCREEN_WIDTH / 800 * 10,
+                    y=SCREEN_HEIGHT / 800 * 700,
                     width=SCREEN_WIDTH / 4,
                     height=SCREEN_HEIGHT / 10,
                     inactive_image=self.images["button_back"]["inactive"],
@@ -529,12 +530,12 @@ class Game:
                         [[main_screen], []])
 
     def draw_competitor_text(self, surface):
-        self.draw_text_with_outline(
+        self.draw_number(
             surface,
+            f"{self.competitor.get_score()}",
             SCREEN_WIDTH / 2,
             SCREEN_HEIGHT / 2,
             self.get_font(SCREEN_HEIGHT // 20, "rd_font"),
-            f"{self.competitor.get_score()}",
             "WHITE",
             "BLACK"
         )
