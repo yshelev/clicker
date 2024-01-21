@@ -24,8 +24,7 @@ class Game:
                 pygame.mixer.Sound("data/sounds/background_music.mp3")
         }
 
-        for sound in self.sounds.values():
-            sound.set_volume(settings["sound"]["turned"])
+        self.set_sound()
 
         self.sounds["background_music"].play(-1)
 
@@ -356,7 +355,7 @@ class Game:
 
     def set_sound(self):
         for sound in self.sounds.values():
-            sound.set_volume(settings["sound"]["turned"])
+            sound.set_volume(settings["sound"]["turned"] * settings["sound"]["sound"])
 
     def start_main_loop(self):
         self.main_loop()
