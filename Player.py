@@ -1,3 +1,5 @@
+import pygame.mixer
+
 from Settings import *
 
 
@@ -6,6 +8,13 @@ class Player:
         self.__counter = 0
         self.__add_money_per_click = 1
         self.__add_money_in_second = 0
+
+        self.__music_players = {
+            "successful":
+                pygame.mixer.Sound("data/sounds/cashOut.mp3"),
+            "unsuccessful":
+                pygame.mixer.Sound("data/sounds/sell2.mp3")
+        }
 
         self.__upgrades = {
             "passive": {
@@ -117,8 +126,10 @@ class Player:
                 self.__counter -= self.__upgrades["passive"][ID]["cost"] * (self.__upgrades["passive"][ID]["cost_multiplier"] if current_index != 0 else 1)
                 self.__upgrades["passive"][ID]["levels"][current_index] = True
                 self.__add_money_in_second += self.__upgrades["passive"][ID]["update_for_level"]
+                self.__music_players["successful"].play()
                 exit_code = 0
             else:
+                self.__music_players["unsuccessful"].play()
                 exit_code = 1
 
         return exit_code
@@ -143,9 +154,15 @@ class Player:
                 self.__upgrades["active"][ID]["levels"] = True
                 self.__add_money_per_click *= self.__upgrades["active"][ID]["multiplier"]
                 exit_code = 0
+                self.__music_players["successful"].play()
             else:
                 exit_code = 1
+                self.__music_players["unsuccessful"].play()
 
         return exit_code
+
+    def set_volume(self):
+        for sound in self.__music_players.values():
+            sound.set_volume(settings["sound"]["turned"])
 
 
