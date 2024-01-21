@@ -32,7 +32,7 @@ class Button:
             self.x + self.padding,
             self.y + self.padding,
             self.width - self.padding * 2,
-            self.height - self.padding * 2
+            self.height - self.padding * 2.7
         )
 
         self.inactive_image, self.hover_image, self.pressed_image = map(

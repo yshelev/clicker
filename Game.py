@@ -51,84 +51,83 @@ class Game:
                 )
         }
 
+        self.background = self.backgrounds["main"]
         self.images = {
             "button_main": {
                 "inactive":
-                    pygame.image.load("data/images/ГОЛОСОВАНИЕ 1.png"),
+                    pygame.image.load("data/images/ГОЛОСОВАНИЕ 1 (3).png"),
                 "hover":
-                    pygame.image.load("data/images/ГОЛОСОВАНИЕ 2.png"),
+                    pygame.image.load("data/images/ГОЛОСОВАНИЕ 2 (3).png"),
                 "pressed":
-                    pygame.image.load("data/images/ГОЛОСОВАНИЕ 3.png")
+                    pygame.image.load("data/images/ГОЛОСОВАНИЕ 3 (3).png")
             },
             "button_open_active_upgrades": {
                 "inactive":
-                    pygame.image.load("data/images/кнопка активные улучшения1.png"),
+                    pygame.image.load("data/images/АКТИВНЫЕ 1.png"),
                 "hover":
-                    pygame.image.load("data/images/кнопка активные улучшения2.png"),
+                    pygame.image.load("data/images/АКТИВНЫЕ 2.png"),
                 "pressed":
-                    pygame.image.load("data/images/кнопка активные улучшения3.png"),
+                    pygame.image.load("data/images/АКТИВНЫЕ 3.png"),
             },
             "button_open_passive_upgrades": {
                 "inactive":
-                    pygame.image.load("data/images/кнопка пассивные улучшения1.png"),
+                    pygame.image.load("data/images/ПАССИВНЫЕ 1.png"),
                 "hover":
-                    pygame.image.load("data/images/кнопка пассивные улучшения2.png"),
+                    pygame.image.load("data/images/ПАССИВНЫЕ 2.png"),
                 "pressed":
-                    pygame.image.load("data/images/кнопка пассивные улучшения3.png"),
+                    pygame.image.load("data/images/ПАССИВНЫЕ 3.png"),
             },
             "button_open_competitors_score": {
                 "inactive":
-                    pygame.image.load("data/images/кнопка счет других участников1.png"),
+                    pygame.image.load("data/images/СЧЕТ ДРУГИХ ИГРОКОВ 1.png"),
                 "hover":
-                    pygame.image.load("data/images/кнопка счет других участников2.png"),
+                    pygame.image.load("data/images/СЧЕТ ДРУГИХ ИГРОКОВ 2.png"),
                 "pressed":
-                    pygame.image.load("data/images/кнопка счет других участников3.png"),
+                    pygame.image.load("data/images/СЧЕТ ДРУГИХ ИГРОКОВ 3.png"),
             },
             "button_back": {
                 "inactive":
-                    pygame.image.load("data/images/кнопка назад1.png"),
+                    pygame.image.load("data/images/НАЗАД 1 (2).png"),
                 "hover":
-                    pygame.image.load("data/images/кнопка назад2.png"),
+                    pygame.image.load("data/images/НАЗАД 2 (2).png"),
                 "pressed":
-                    pygame.image.load("data/images/кнопка назад3.png"),
+                    pygame.image.load("data/images/НАЗАД 3 (2).png"),
             },
             "button_buy": {
                 "inactive":
-                    pygame.image.load("data/images/кнопка купить1.png"),
+                    pygame.image.load("data/images/КУПИТЬ 1.png"),
                 "hover":
-                    pygame.image.load("data/images/кнопка купить2.png"),
+                    pygame.image.load("data/images/КУПИТЬ 2.png"),
                 "pressed":
-                    pygame.image.load("data/images/кнопка купить3.png")
+                    pygame.image.load("data/images/КУПИТЬ 3.png")
             },
             "button_purchased": {
                 "inactive":
-                    pygame.image.load("data/images/кнопка куплено1.png"),
+                    pygame.image.load("data/images/КУПЛЕНО 1.png"),
                 "hover":
-                    pygame.image.load("data/images/кнопка куплено2.png"),
+                    pygame.image.load("data/images/КУПЛЕНО 2.png"),
                 "pressed":
-                    pygame.image.load("data/images/кнопка куплено3.png")
+                    pygame.image.load("data/images/КУПЛЕНО 3.png")
             },
             "sound": {
                 "inactive":
-                    pygame.image.load("data/images/кнопка звук1.png"),
+                    pygame.image.load("data/images/ЗВУК 1.png"),
                 "hover":
-                    pygame.image.load("data/images/кнопка звук2.png"),
+                    pygame.image.load("data/images/ЗВУК 2.png"),
                 "pressed":
-                    pygame.image.load("data/images/кнопка звук3.png")
+                    pygame.image.load("data/images/ЗВУК 3.png")
             }
         }
-
-        self.background = self.backgrounds["main"]
 
         self.buttons = {
             "main":
                 CircleButton(
                     surface=main_screen,
-                    center_x=SCREEN_WIDTH // 2,
-                    center_y=SCREEN_HEIGHT // 2,
-                    width=SCREEN_WIDTH // 3,
-                    height=SCREEN_HEIGHT // 3,
-                    radius=SCREEN_HEIGHT // 8,
+                    center_x=SCREEN_WIDTH / 2,
+                    center_y=SCREEN_HEIGHT / 2,
+                    width=SCREEN_WIDTH / 800 * 300,
+                    height=SCREEN_HEIGHT / 800 * 300,
+                    radius=SCREEN_HEIGHT / 8,
                     inactive_image=self.images["button_main"]["inactive"],
                     hover_image=self.images["button_main"]["hover"],
                     pressed_image=self.images["button_main"]["pressed"],
@@ -139,22 +138,22 @@ class Game:
                 Button(
                     surface=main_screen,
                     x=0,
-                    y=SCREEN_HEIGHT // 5 * 4,
-                    width=SCREEN_WIDTH // 3,
-                    height=SCREEN_HEIGHT // 5,
+                    y=SCREEN_HEIGHT / 5 * 4,
+                    width=SCREEN_WIDTH / 3,
+                    height=SCREEN_HEIGHT / 5,
                     inactive_image=self.images["button_open_active_upgrades"]["inactive"],
                     hover_image=self.images["button_open_active_upgrades"]["hover"],
                     pressed_image=self.images["button_open_active_upgrades"]["pressed"],
                     on_click=self.active_upgrades_loop,
-                    padding=10
+                    padding=20
                 ),
             "open_passive_upgrades":
                 Button(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 3,
-                    y=SCREEN_HEIGHT // 5 * 4,
-                    width=SCREEN_WIDTH // 3,
-                    height=SCREEN_HEIGHT // 5,
+                    x=SCREEN_WIDTH / 3,
+                    y=SCREEN_HEIGHT / 5 * 4,
+                    width=SCREEN_WIDTH / 3,
+                    height=SCREEN_HEIGHT / 5,
                     inactive_image=self.images["button_open_passive_upgrades"]["inactive"],
                     hover_image=self.images["button_open_passive_upgrades"]["hover"],
                     pressed_image=self.images["button_open_passive_upgrades"]["pressed"],
@@ -164,10 +163,10 @@ class Game:
             "open_competitors_score":
                 Button(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 3 * 2,
-                    y=SCREEN_HEIGHT // 5 * 4,
-                    width=SCREEN_WIDTH // 3,
-                    height=SCREEN_HEIGHT // 5,
+                    x=SCREEN_WIDTH / 3 * 2,
+                    y=SCREEN_HEIGHT / 5 * 4,
+                    width=SCREEN_WIDTH / 3,
+                    height=SCREEN_HEIGHT / 5,
                     inactive_image=self.images["button_open_competitors_score"]["inactive"],
                     hover_image=self.images["button_open_competitors_score"]["hover"],
                     pressed_image=self.images["button_open_competitors_score"]["pressed"],
@@ -178,9 +177,9 @@ class Game:
                 Button(
                     surface=main_screen,
                     x=0,
-                    y=SCREEN_HEIGHT // 10 * 9,
-                    width=SCREEN_WIDTH // 4,
-                    height=SCREEN_HEIGHT // 10,
+                    y=SCREEN_HEIGHT / 10 * 9,
+                    width=SCREEN_WIDTH / 4,
+                    height=SCREEN_HEIGHT / 10,
                     inactive_image=self.images["button_back"]["inactive"],
                     hover_image=self.images["button_back"]["hover"],
                     pressed_image=self.images["button_back"]["pressed"],
@@ -190,10 +189,10 @@ class Game:
             "passive_upgrade_1":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 800 * 25,
-                    y=SCREEN_HEIGHT // 800 * 210,
-                    width=SCREEN_WIDTH // 4,
-                    height=SCREEN_HEIGHT // 10,
+                    x=SCREEN_WIDTH / 800 * 25,
+                    y=SCREEN_HEIGHT / 800 * 210,
+                    width=SCREEN_WIDTH / 4,
+                    height=SCREEN_HEIGHT / 10,
                     levels=1_000_000,
                     inactive_image=self.images["button_buy"]["inactive"],
                     hover_image=self.images["button_buy"]["hover"],
@@ -208,10 +207,10 @@ class Game:
             "passive_upgrade_2":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 800 * 25,
-                    y=SCREEN_HEIGHT // 800 * 325,
-                    width=SCREEN_WIDTH // 4,
-                    height=SCREEN_HEIGHT // 10,
+                    x=SCREEN_WIDTH / 800 * 25,
+                    y=SCREEN_HEIGHT / 800 * 325,
+                    width=SCREEN_WIDTH / 4,
+                    height=SCREEN_HEIGHT / 10,
                     levels=5,
                     inactive_image=self.images["button_buy"]["inactive"],
                     hover_image=self.images["button_buy"]["hover"],
@@ -226,10 +225,10 @@ class Game:
             "passive_upgrade_3":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 800 * 25,
-                    y=SCREEN_HEIGHT // 800 * 450,
-                    width=SCREEN_WIDTH // 4,
-                    height=SCREEN_HEIGHT // 10,
+                    x=SCREEN_WIDTH / 800 * 25,
+                    y=SCREEN_HEIGHT / 800 * 450,
+                    width=SCREEN_WIDTH / 4,
+                    height=SCREEN_HEIGHT / 10,
                     levels=5,
                     inactive_image=self.images["button_buy"]["inactive"],
                     hover_image=self.images["button_buy"]["hover"],
@@ -244,10 +243,10 @@ class Game:
             "passive_upgrade_4":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 800 * 25,
-                    y=SCREEN_HEIGHT // 800 * 565,
-                    width=SCREEN_WIDTH // 4,
-                    height=SCREEN_HEIGHT // 10,
+                    x=SCREEN_WIDTH / 800 * 25,
+                    y=SCREEN_HEIGHT / 800 * 565,
+                    width=SCREEN_WIDTH / 4,
+                    height=SCREEN_HEIGHT / 10,
                     levels=5,
                     inactive_image=self.images["button_buy"]["inactive"],
                     hover_image=self.images["button_buy"]["hover"],
@@ -262,10 +261,10 @@ class Game:
             "active_upgrade_1":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 800 * 580,
-                    y=SCREEN_HEIGHT // 800 * 220,
-                    width=SCREEN_WIDTH // 4,
-                    height=SCREEN_HEIGHT // 10,
+                    x=SCREEN_WIDTH / 800 * 580,
+                    y=SCREEN_HEIGHT / 800 * 220,
+                    width=SCREEN_WIDTH / 4,
+                    height=SCREEN_HEIGHT / 10,
                     levels=1,
                     inactive_image=self.images["button_buy"]["inactive"],
                     hover_image=self.images["button_buy"]["hover"],
@@ -280,10 +279,10 @@ class Game:
             "active_upgrade_2":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 800 * 580,
-                    y=SCREEN_HEIGHT // 800 * 400,
-                    width=SCREEN_WIDTH // 4,
-                    height=SCREEN_HEIGHT // 10,
+                    x=SCREEN_WIDTH / 800 * 580,
+                    y=SCREEN_HEIGHT / 800 * 400,
+                    width=SCREEN_WIDTH / 4,
+                    height=SCREEN_HEIGHT / 10,
                     levels=1,
                     inactive_image=self.images["button_buy"]["inactive"],
                     hover_image=self.images["button_buy"]["hover"],
@@ -298,10 +297,10 @@ class Game:
             "active_upgrade_3":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 800 * 580,
-                    y=SCREEN_HEIGHT // 800 * 580,
-                    width=SCREEN_WIDTH // 4,
-                    height=SCREEN_HEIGHT // 10,
+                    x=SCREEN_WIDTH / 800 * 580,
+                    y=SCREEN_HEIGHT / 800 * 580,
+                    width=SCREEN_WIDTH / 4,
+                    height=SCREEN_HEIGHT / 10,
                     levels=1,
                     inactive_image=self.images["button_buy"]["inactive"],
                     hover_image=self.images["button_buy"]["hover"],
@@ -316,10 +315,10 @@ class Game:
             "settings_sound":
                 Button(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 6 * 5,
+                    x=SCREEN_WIDTH / 6 * 5,
                     y=0,
-                    width=SCREEN_WIDTH // 6,
-                    height=SCREEN_HEIGHT // 6,
+                    width=SCREEN_WIDTH / 6,
+                    height=SCREEN_HEIGHT / 6,
                     inactive_image=self.images["sound"]["inactive"],
                     hover_image=self.images["sound"]["hover"],
                     pressed_image=self.images["sound"]["pressed"],
@@ -514,8 +513,8 @@ class Game:
     def draw_competitor_text(self, surface):
         self.draw_text_with_outline(
             surface,
-            SCREEN_WIDTH // 2,
-            SCREEN_HEIGHT // 2,
+            SCREEN_WIDTH / 2,
+            SCREEN_HEIGHT / 2,
             self.get_font(SCREEN_HEIGHT // 20, "rd_font"),
             f"{self.competitor.get_score()}",
             "WHITE",
@@ -541,14 +540,23 @@ class Game:
             self.buttons[buttons].draw()
 
     def draw_score(self, surface):
-        score_surface = self.get_font(40, "rd_font").render(
+        self.draw_text_with_outline(
+            surface,
+            SCREEN_WIDTH / 1.75,
+            SCREEN_HEIGHT / 1.37123054904489,
+            self.get_font(40, "button_font"),
+            f"{self.player.get_counter()}",
+            "WHITE",
+            "BLACK"
+        )
+        score_surface = self.get_font(40, "button_font").render(
             f"{self.player.get_counter()}", False, "WHITE"
         )
-        surface.blit(score_surface, (SCREEN_WIDTH // 1.75, SCREEN_HEIGHT // 1.37123054904489))
+        surface.blit(score_surface, (SCREEN_WIDTH / 1.75, SCREEN_HEIGHT / 1.37123054904489))
 
     def draw_passive_updates_text(self, surface):
-        start_text_y, delta_text_y = SCREEN_HEIGHT // 800 * 232, SCREEN_HEIGHT // 800 * 120
-        start_text_x, delta_text_x = SCREEN_WIDTH // 800 * 250, 0
+        start_text_y, delta_text_y = SCREEN_HEIGHT / 800 * 232, SCREEN_HEIGHT / 800 * 120
+        start_text_x, delta_text_x = SCREEN_WIDTH / 800 * 250, 0
         for index, upgrade in enumerate(self.upgrades["passive"]):
             self.draw_text_with_outline(
                 surface,
@@ -568,8 +576,8 @@ class Game:
                          (start_text_x + delta_text_x * index, start_text_y + delta_text_y * index))
 
     def draw_active_update_text(self, surface):
-        start_text_y, delta_text_y = SCREEN_HEIGHT // 100 * 38, SCREEN_HEIGHT // 100 * 23
-        start_text_x, delta_text_x = SCREEN_WIDTH // 800 * 620, 0
+        start_text_y, delta_text_y = SCREEN_HEIGHT / 100 * 38, SCREEN_HEIGHT / 100 * 23
+        start_text_x, delta_text_x = SCREEN_WIDTH / 800 * 620, 0
         for index, upgrade in enumerate(self.upgrades["active"]):
             self.draw_text_with_outline(
                 surface,
