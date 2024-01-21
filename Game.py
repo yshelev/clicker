@@ -120,7 +120,6 @@ class Game:
 
         self.background = self.backgrounds["main"]
 
-
         self.buttons = {
             "main":
                 CircleButton(
@@ -135,18 +134,7 @@ class Game:
                     pressed_image=self.images["button_main"]["pressed"],
                     on_click=self.main_on_click,
                 ),
-            # "open_settings":
-            #     Button(
-            #         surface=main_screen,
-            #         x=SCREEN_WIDTH // 4 * 3,
-            #         y=SCREEN_HEIGHT // 4,
-            #         width=SCREEN_WIDTH // 4,
-            #         height=SCREEN_HEIGHT // 4,
-            #         inactive_image=self.images["button_open_settings"]["inactive"],
-            #         hover_image=self.images["button_open_settings"]["hover"],
-            #         pressed_image=self.images["button_open_settings"]["pressed"],
-            #         on_click=self.settings_loop
-            #     ),
+
             "open_active_upgrades":
                 Button(
                     surface=main_screen,
