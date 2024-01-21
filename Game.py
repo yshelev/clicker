@@ -17,6 +17,14 @@ class Game:
 
         self.player = Player()
 
+        self.competitors = {
+            "moscow":
+                Competitor(),
+            "krasnoyarsk":
+                Competitor(),
+
+        }
+        self.competitor = Competitor()
         self.competitor = Competitor()
 
         self.sounds = {
@@ -116,6 +124,16 @@ class Game:
                     pygame.image.load("data/images/ЗВУК 2.png"),
                 "pressed":
                     pygame.image.load("data/images/ЗВУК 3.png")
+            },
+            "digit": {
+                str(i):
+                    pygame.transform.scale(pygame.image.load("data/images/ЦИФРЫ.png"), (654, 40)).subsurface(
+                        (14 * (i + 1)) + (14 * i) + (40 * max(0, (i - 2))) + (18 if i > 1 else 0) + (
+                            40 if i > 0 else 0),
+                        0,
+                        40 if i != 1 else 14,
+                        40
+                    ) for i in range(10)
             }
         }
 
@@ -158,7 +176,7 @@ class Game:
                     hover_image=self.images["button_open_passive_upgrades"]["hover"],
                     pressed_image=self.images["button_open_passive_upgrades"]["pressed"],
                     on_click=self.passive_upgrades_loop,
-                    padding=10
+                    padding=20
                 ),
             "open_competitors_score":
                 Button(
@@ -171,7 +189,7 @@ class Game:
                     hover_image=self.images["button_open_competitors_score"]["hover"],
                     pressed_image=self.images["button_open_competitors_score"]["pressed"],
                     on_click=self.competitors_score,
-                    padding=10,
+                    padding=20,
                 ),
             "back":
                 Button(
@@ -184,7 +202,7 @@ class Game:
                     hover_image=self.images["button_back"]["hover"],
                     pressed_image=self.images["button_back"]["pressed"],
                     on_click=self.main_loop,
-                    padding=10
+                    padding=20
                 ),
             "passive_upgrade_1":
                 BuyButton(
@@ -202,7 +220,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_passive_upgrades,
                     on_click_params=["bot"],
-                    padding=10
+                    padding=20
                 ),
             "passive_upgrade_2":
                 BuyButton(
@@ -220,7 +238,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_passive_upgrades,
                     on_click_params=["AI"],
-                    padding=10
+                    padding=20
                 ),
             "passive_upgrade_3":
                 BuyButton(
@@ -238,7 +256,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_passive_upgrades,
                     on_click_params=["student"],
-                    padding=10
+                    padding=20
                 ),
             "passive_upgrade_4":
                 BuyButton(
@@ -256,7 +274,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_passive_upgrades,
                     on_click_params=["chinese"],
-                    padding=10
+                    padding=20
                 ),
             "active_upgrade_1":
                 BuyButton(
@@ -274,7 +292,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_active_upgrade,
                     on_click_params=["double_click"],
-                    padding=10
+                    padding=20
                 ),
             "active_upgrade_2":
                 BuyButton(
@@ -292,7 +310,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_active_upgrade,
                     on_click_params=["triple_click"],
-                    padding=10
+                    padding=20
                 ),
             "active_upgrade_3":
                 BuyButton(
@@ -310,7 +328,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_active_upgrade,
                     on_click_params=["quadro_click"],
-                    padding=10
+                    padding=20
                 ),
             "settings_sound":
                 Button(
@@ -481,7 +499,6 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         running["passive_upgrades"] = False
                         myquit()
-            self.draw_passive_updates_text(main_screen)
             self.update(main_screen, events, [self.draw_passive_updates_text], [[main_screen]])
 
     def competitors_score(self):
@@ -508,7 +525,8 @@ class Game:
                         running["competitors"] = False
                         myquit()
 
-            self.update(main_screen, events, [self.draw_competitor_text, self.competitors_update], [[main_screen], []])
+            self.update(main_screen, events, [self.draw_competitor_text, self.competitors_update],
+                        [[main_screen], []])
 
     def draw_competitor_text(self, surface):
         self.draw_text_with_outline(
@@ -540,54 +558,67 @@ class Game:
             self.buttons[buttons].draw()
 
     def draw_score(self, surface):
-        self.draw_text_with_outline(
+        self.draw_number(
             surface,
+            f"{self.player.get_counter()}",
             SCREEN_WIDTH / 1.75,
             SCREEN_HEIGHT / 1.37123054904489,
             self.get_font(40, "button_font"),
-            f"{self.player.get_counter()}",
             "WHITE",
             "BLACK"
         )
-        score_surface = self.get_font(40, "button_font").render(
-            f"{self.player.get_counter()}", False, "WHITE"
-        )
-        surface.blit(score_surface, (SCREEN_WIDTH / 1.75, SCREEN_HEIGHT / 1.37123054904489))
 
     def draw_passive_updates_text(self, surface):
-        start_text_y, delta_text_y = SCREEN_HEIGHT / 800 * 232, SCREEN_HEIGHT / 800 * 120
-        start_text_x, delta_text_x = SCREEN_WIDTH / 800 * 250, 0
+        start_text_y, delta_text_y = SCREEN_HEIGHT / 800 * 225, SCREEN_HEIGHT / 800 * 120
+        start_text_x, delta_text_x = SCREEN_WIDTH / 800 * 220, 0
         for index, upgrade in enumerate(self.upgrades["passive"]):
-            self.draw_text_with_outline(
+            self.draw_number(
                 surface,
+                f"{self.get_int_form(self.player.get_actual_cost_of_passive_upgrade(upgrade))}",
                 start_text_x + delta_text_x * index,
                 start_text_y + delta_text_y * index,
-                self.get_font(SCREEN_HEIGHT // 20, "button_font"),
-                f"{self.get_int_form(self.player.get_actual_cost_of_passive_upgrade(upgrade))}",
+                self.get_font(55, "button_font"),
                 "WHITE",
                 "BLACK"
             )
-            passive_upgrade_surface = self.get_font(SCREEN_HEIGHT // 20, "button_font").render(
-                f"{self.get_int_form(self.player.get_actual_cost_of_passive_upgrade(upgrade))}",
-                False,
-                "WHITE"
-            )
-            surface.blit(passive_upgrade_surface,
-                         (start_text_x + delta_text_x * index, start_text_y + delta_text_y * index))
+
 
     def draw_active_update_text(self, surface):
-        start_text_y, delta_text_y = SCREEN_HEIGHT / 100 * 38, SCREEN_HEIGHT / 100 * 23
+        start_text_y, delta_text_y = SCREEN_HEIGHT / 100 * 37, SCREEN_HEIGHT / 100 * 22
         start_text_x, delta_text_x = SCREEN_WIDTH / 800 * 620, 0
         for index, upgrade in enumerate(self.upgrades["active"]):
-            self.draw_text_with_outline(
+            self.draw_number(
                 surface,
+                f"{self.get_int_form(int(self.upgrades["active"][upgrade]["cost"] * (not self.upgrades["active"][upgrade]["levels"])))}",
                 start_text_x + delta_text_x * index,
                 start_text_y + delta_text_y * index,
-                self.get_font(SCREEN_HEIGHT // 20, "button_font"),
-                f"{self.get_int_form(int(self.upgrades["active"][upgrade]["cost"] * (not self.upgrades["active"][upgrade]["levels"])))}",
+                self.get_font(55, "button_font"),
                 "WHITE",
-                "BLACK"
+                "BLACK",
             )
+
+    def draw_number(self, surface, number, x, y, font, text_color, outline_color):
+        number = str(number)
+        to_output = ""
+        dx = 0
+        for index, char in enumerate(number):
+            if char.isdigit():
+                surface.blit(self.images["digit"][char], (x + dx, y))
+                dx += 40 if char != "1" else 20
+                to_output += "  " if char != "1" else " "
+            else:
+                dx += 40 if char != "." else 20
+                to_output += char if char == "." else " " + char
+
+        self.draw_text_with_outline(
+            surface,
+            x,
+            y,
+            font,
+            to_output,
+            text_color,
+            outline_color
+        )
 
     def show_buttons_group(self, *buttons):
         for button in self.buttons:
