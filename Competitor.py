@@ -15,4 +15,4 @@ class Competitor:
         self.multiply += added_value
 
     def get_score(self):
-        return self.score
+        return int(self.score)

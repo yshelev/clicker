@@ -14,8 +14,8 @@ class Player:
                     "description": "сам КЛИКАЕТ?!!??! ЧТО!?!?!?!?!",
                     "name": "автокликер",
                     "update_for_level": 1,
-                    "levels": [False for _ in range(5)],
-                    "cost_multiplier": 1.2
+                    "levels": [False for _ in range(1_000_000)],
+                    "cost_multiplier": 2
                 },
 
                 "AI": {
@@ -24,7 +24,7 @@ class Player:
                     "name": "искусственный интеллект",
                     "update_for_level": 5,
                     "levels": [False for _ in range(5)],
-                    "cost_multiplier": 1.2
+                    "cost_multiplier": 1.5
                 },
 
                 "student": {
@@ -113,8 +113,8 @@ class Player:
 
         current_index = sum(self.__upgrades["passive"][ID]["levels"])
         if current_index != len(self.__upgrades["passive"][ID]["levels"]):
-            if self.__counter >= self.__upgrades["passive"][ID]["cost"] + sum(self.__upgrades["passive"][ID]["levels"]) * self.__upgrades["passive"][ID]["cost_multiplier"]:
-                self.__counter -= self.__upgrades["passive"][ID]["cost"] + sum(self.__upgrades["passive"][ID]["levels"]) * self.__upgrades["passive"][ID]["cost_multiplier"]
+            if self.__counter >= self.__upgrades["passive"][ID]["cost"] * (self.__upgrades["passive"][ID]["cost_multiplier"] if current_index != 0 else 1):
+                self.__counter -= self.__upgrades["passive"][ID]["cost"] * (self.__upgrades["passive"][ID]["cost_multiplier"] if current_index != 0 else 1)
                 self.__upgrades["passive"][ID]["levels"][current_index] = True
                 self.__add_money_in_second += self.__upgrades["passive"][ID]["update_for_level"]
                 exit_code = 0
@@ -122,6 +122,9 @@ class Player:
                 exit_code = 1
 
         return exit_code
+
+    def get_actual_cost_of_passive_upgrade(self, ID):
+        return self.__upgrades["passive"][ID]["cost"] * (self.__upgrades["passive"][ID]["cost_multiplier"] if sum(self.__upgrades["passive"][ID]["levels"]) != 0 else 1)
 
     def buy_active_upgrade(self, ID: str) -> int:
         # в Game можно обернуть эту функцию в другую, которая будет выводить текст в зависимости от exit_code

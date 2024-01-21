@@ -39,6 +39,16 @@ class Game:
                 pygame.transform.scale(
                     pygame.image.load("data/backgrounds/фон кликер затемненный.png"),
                     (SCREEN_WIDTH, SCREEN_HEIGHT)
+                ),
+            "active_upgrades":
+                pygame.transform.scale(
+                    pygame.image.load("data/backgrounds/фон активные улучшения.png"),
+                    (SCREEN_WIDTH, SCREEN_HEIGHT)
+                ),
+            "passive_upgrades":
+                pygame.transform.scale(
+                    pygame.image.load("data/backgrounds/фон пассивные улучшения.png"),
+                    (SCREEN_WIDTH, SCREEN_HEIGHT)
                 )
         }
 
@@ -111,6 +121,7 @@ class Game:
 
         self.background = self.backgrounds["main"]
 
+
         self.buttons = {
             "main":
                 CircleButton(
@@ -179,8 +190,8 @@ class Game:
             "back":
                 Button(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 2 - SCREEN_WIDTH // 8,
-                    y=SCREEN_HEIGHT // 9 * 8,
+                    x=0,
+                    y=SCREEN_HEIGHT // 10 * 9,
                     width=SCREEN_WIDTH // 4,
                     height=SCREEN_HEIGHT // 10,
                     inactive_image=self.images["button_back"]["inactive"],
@@ -192,11 +203,11 @@ class Game:
             "passive_upgrade_1":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 6,
-                    y=SCREEN_HEIGHT // 6,
+                    x=SCREEN_WIDTH // 800 * 25,
+                    y=SCREEN_HEIGHT // 800 * 210,
                     width=SCREEN_WIDTH // 4,
                     height=SCREEN_HEIGHT // 10,
-                    levels=5,
+                    levels=1_000_000,
                     inactive_image=self.images["button_buy"]["inactive"],
                     hover_image=self.images["button_buy"]["hover"],
                     pressed_image=self.images["button_buy"]["pressed"],
@@ -210,8 +221,8 @@ class Game:
             "passive_upgrade_2":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 6,
-                    y=SCREEN_HEIGHT // 6 * 2,
+                    x=SCREEN_WIDTH // 800 * 25,
+                    y=SCREEN_HEIGHT // 800 * 325,
                     width=SCREEN_WIDTH // 4,
                     height=SCREEN_HEIGHT // 10,
                     levels=5,
@@ -228,8 +239,8 @@ class Game:
             "passive_upgrade_3":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 6,
-                    y=SCREEN_HEIGHT // 6 * 3,
+                    x=SCREEN_WIDTH // 800 * 25,
+                    y=SCREEN_HEIGHT // 800 * 450,
                     width=SCREEN_WIDTH // 4,
                     height=SCREEN_HEIGHT // 10,
                     levels=5,
@@ -246,8 +257,8 @@ class Game:
             "passive_upgrade_4":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 6,
-                    y=SCREEN_HEIGHT // 6 * 4,
+                    x=SCREEN_WIDTH // 800 * 25,
+                    y=SCREEN_HEIGHT // 800 * 565,
                     width=SCREEN_WIDTH // 4,
                     height=SCREEN_HEIGHT // 10,
                     levels=5,
@@ -264,8 +275,8 @@ class Game:
             "active_upgrade_1":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 3 * 2,
-                    y=SCREEN_HEIGHT // 10 * 2,
+                    x=SCREEN_WIDTH // 800 * 580,
+                    y=SCREEN_HEIGHT // 800 * 220,
                     width=SCREEN_WIDTH // 4,
                     height=SCREEN_HEIGHT // 10,
                     levels=1,
@@ -282,8 +293,8 @@ class Game:
             "active_upgrade_2":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 3 * 2,
-                    y=SCREEN_HEIGHT // 10 * 4,
+                    x=SCREEN_WIDTH // 800 * 580,
+                    y=SCREEN_HEIGHT // 800 * 400,
                     width=SCREEN_WIDTH // 4,
                     height=SCREEN_HEIGHT // 10,
                     levels=1,
@@ -300,8 +311,8 @@ class Game:
             "active_upgrade_3":
                 BuyButton(
                     surface=main_screen,
-                    x=SCREEN_WIDTH // 3 * 2,
-                    y=SCREEN_HEIGHT // 10 * 6,
+                    x=SCREEN_WIDTH // 800 * 580,
+                    y=SCREEN_HEIGHT // 800 * 580,
                     width=SCREEN_WIDTH // 4,
                     height=SCREEN_HEIGHT // 10,
                     levels=1,
@@ -329,7 +340,6 @@ class Game:
                     on_click_params=["sound"]
                 )
         }
-
         self.upgrades = {
             "passive":
                 self.player.get_all_upgrades("passive"),
@@ -346,7 +356,6 @@ class Game:
 
     def set_sound(self):
         for sound in self.sounds.values():
-            print(sound)
             sound.set_volume(settings["sound"]["turned"])
 
     def start_main_loop(self):
@@ -404,7 +413,7 @@ class Game:
             self.update(main_screen, events, [self.draw_score], [[main_screen]])
 
     def active_upgrades_loop(self):
-        self.background = self.backgrounds["other"]
+        self.background = self.backgrounds["active_upgrades"]
 
         self.switching_between_activities()
         running["active_upgrades"] = True
@@ -460,7 +469,7 @@ class Game:
             self.update(main_screen, events, [], [])
 
     def passive_upgrades_loop(self):
-        self.background = self.backgrounds["other"]
+        self.background = self.backgrounds["passive_upgrades"]
 
         self.switching_between_activities()
         running["passive_upgrades"] = True
@@ -531,7 +540,6 @@ class Game:
         for buttons in self.buttons.keys():
             for event in events:
                 self.buttons[buttons].handle_event(event=event)
-                print(self.player.get_counter())
             self.buttons[buttons].draw()
 
     def draw_score(self, surface):
@@ -541,28 +549,39 @@ class Game:
         surface.blit(score_surface, (SCREEN_WIDTH // 1.75, SCREEN_HEIGHT // 1.37123054904489))
 
     def draw_passive_updates_text(self, surface):
-        start_text_y, delta_text_y = SCREEN_HEIGHT // 6, SCREEN_HEIGHT // 5
-        start_text_x, delta_text_x = SCREEN_WIDTH // 2, 0
+        start_text_y, delta_text_y = SCREEN_HEIGHT // 800 * 232, SCREEN_HEIGHT // 800 * 120
+        start_text_x, delta_text_x = SCREEN_WIDTH // 800 * 250, 0
         for index, upgrade in enumerate(self.upgrades["passive"]):
-            passive_upgrade_surface = self.get_font(SCREEN_HEIGHT // 20, "menu_font").render(
-                f"{int(self.upgrades["passive"][upgrade]["cost"] + sum(self.upgrades["passive"][upgrade]["levels"]) * self.upgrades["passive"][upgrade]["cost_multiplier"])}",
-                False,
+            self.draw_text_with_outline(
+                surface,
+                start_text_x + delta_text_x * index,
+                start_text_y + delta_text_y * index,
+                self.get_font(SCREEN_HEIGHT // 20, "button_font"),
+                f"{self.get_int_form(self.player.get_actual_cost_of_passive_upgrade(upgrade))}",
+                "WHITE",
                 "BLACK"
+            )
+            passive_upgrade_surface = self.get_font(SCREEN_HEIGHT // 20, "button_font").render(
+                f"{self.get_int_form(self.player.get_actual_cost_of_passive_upgrade(upgrade))}",
+                False,
+                "WHITE"
             )
             surface.blit(passive_upgrade_surface,
                          (start_text_x + delta_text_x * index, start_text_y + delta_text_y * index))
 
     def draw_active_update_text(self, surface):
-        start_text_y, delta_text_y = SCREEN_HEIGHT // 5, SCREEN_HEIGHT // 4
-        start_text_x, delta_text_x = SCREEN_WIDTH // 4, 0
+        start_text_y, delta_text_y = SCREEN_HEIGHT // 100 * 38, SCREEN_HEIGHT // 100 * 23
+        start_text_x, delta_text_x = SCREEN_WIDTH // 800 * 620, 0
         for index, upgrade in enumerate(self.upgrades["active"]):
-            active_upgrade_surface = self.get_font(SCREEN_HEIGHT // 20, "menu_font").render(
-                f"{int(self.upgrades["active"][upgrade]["cost"] * (not self.upgrades["active"][upgrade]["levels"]))}",
-                False,
+            self.draw_text_with_outline(
+                surface,
+                start_text_x + delta_text_x * index,
+                start_text_y + delta_text_y * index,
+                self.get_font(SCREEN_HEIGHT // 20, "button_font"),
+                f"{self.get_int_form(int(self.upgrades["active"][upgrade]["cost"] * (not self.upgrades["active"][upgrade]["levels"])))}",
+                "WHITE",
                 "BLACK"
             )
-            surface.blit(active_upgrade_surface,
-                         (start_text_x + delta_text_x * index, start_text_y + delta_text_y * index))
 
     def show_buttons_group(self, *buttons):
         for button in self.buttons:
@@ -575,3 +594,27 @@ class Game:
     def switching_between_activities():
         for i in running.keys():
             running[i] = False
+
+    @staticmethod
+    def get_int_form(integer):
+        integer_str = str(integer)
+        cases = {
+            0: "",
+            1: "k",
+            2: "m",
+            3: "b"
+        }
+        check = sum([len(integer_str) > 3, len(integer_str) > 6, len(integer_str) > 9])
+        return str(integer // (1000 ** check)) + ("." + str(integer % (1000 ** check) // 10) if check else "") + cases[check]
+
+    @staticmethod
+    def draw_text_with_outline(surface, x, y, font, text, text_color, outline_color):
+        outline = font.render(text, False, outline_color)
+        main_text = font.render(text, False, text_color)
+
+        for dx in range(-1, 1):
+            for dy in range(-1, 1):
+                if dx and dy:
+                    surface.blit(outline, (x + dx, y + dy))
+
+        surface.blit(main_text, (x, y))
