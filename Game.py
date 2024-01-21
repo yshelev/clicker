@@ -17,7 +17,7 @@ class Game:
 
         self.player = Player()
 
-        self.moscow = Competitor()
+        self.competitor = Competitor()
 
         self.sounds = {
             "background_music":
@@ -397,7 +397,7 @@ class Game:
                         running["main"] = False
                         myquit()
 
-            self.update(main_screen, events, [self.draw_score], [[main_screen]])
+            self.update(main_screen, events, [self.draw_score, self.competitors_update], [[main_screen], []])
 
     def active_upgrades_loop(self):
         self.background = self.backgrounds["active_upgrades"]
@@ -509,10 +509,21 @@ class Game:
                         running["competitors"] = False
                         myquit()
 
-            self.update(main_screen, events, [], [])
+            self.update(main_screen, events, [self.draw_competitor_text, self.competitors_update], [[main_screen], []])
+
+    def draw_competitor_text(self, surface):
+        self.draw_text_with_outline(
+            surface,
+            SCREEN_WIDTH // 2,
+            SCREEN_HEIGHT // 2,
+            self.get_font(SCREEN_HEIGHT // 20, "rd_font"),
+            f"{self.competitor.get_score()}",
+            "WHITE",
+            "BLACK"
+        )
 
     def competitors_update(self):
-        pass
+        self.competitor.update()
 
     def update(self, surface: pygame.Surface, events, funcs, funcs_params) -> None:
         surface.blit(self.background, (0, 0))
@@ -592,7 +603,8 @@ class Game:
             3: "b"
         }
         check = sum([len(integer_str) > 3, len(integer_str) > 6, len(integer_str) > 9])
-        return str(integer // (1000 ** check)) + ("." + str(integer % (1000 ** check) // 10) if check else "") + cases[check]
+        return str(integer // (1000 ** check)) + ("." + str(integer % (1000 ** check) // 10) if check else "") + cases[
+            check]
 
     @staticmethod
     def draw_text_with_outline(surface, x, y, font, text, text_color, outline_color):

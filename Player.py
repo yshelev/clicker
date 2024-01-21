@@ -122,8 +122,8 @@ class Player:
 
         current_index = sum(self.__upgrades["passive"][ID]["levels"])
         if current_index != len(self.__upgrades["passive"][ID]["levels"]):
-            if self.__counter >= self.__upgrades["passive"][ID]["cost"] * (self.__upgrades["passive"][ID]["cost_multiplier"] if current_index != 0 else 1):
-                self.__counter -= self.__upgrades["passive"][ID]["cost"] * (self.__upgrades["passive"][ID]["cost_multiplier"] if current_index != 0 else 1)
+            if self.__counter >= self.__upgrades["passive"][ID]["cost"] * (self.__upgrades["passive"][ID]["cost_multiplier"] ** current_index):
+                self.__counter -= self.__upgrades["passive"][ID]["cost"] * (self.__upgrades["passive"][ID]["cost_multiplier"] ** current_index)
                 self.__upgrades["passive"][ID]["levels"][current_index] = True
                 self.__add_money_in_second += self.__upgrades["passive"][ID]["update_for_level"]
                 self.__music_players["successful"].play()
@@ -135,7 +135,7 @@ class Player:
         return exit_code
 
     def get_actual_cost_of_passive_upgrade(self, ID):
-        return self.__upgrades["passive"][ID]["cost"] * (self.__upgrades["passive"][ID]["cost_multiplier"] if sum(self.__upgrades["passive"][ID]["levels"]) != 0 else 1)
+        return int(self.__upgrades["passive"][ID]["cost"] * (self.__upgrades["passive"][ID]["cost_multiplier"] ** sum(self.__upgrades["passive"][ID]["levels"])))
 
     def buy_active_upgrade(self, ID: str) -> int:
         # в Game можно обернуть эту функцию в другую, которая будет выводить текст в зависимости от exit_code
