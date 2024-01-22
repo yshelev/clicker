@@ -209,7 +209,7 @@ class Game:
                     hover_image=self.images["button_back"]["hover"],
                     pressed_image=self.images["button_back"]["pressed"],
                     on_click=self.main_loop,
-                    padding=20
+                    padding=5
                 ),
             "passive_upgrade_1":
                 BuyButton(
@@ -227,7 +227,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_passive_upgrades,
                     on_click_params=["bot"],
-                    padding=20
+                    padding=5
                 ),
             "passive_upgrade_2":
                 BuyButton(
@@ -245,7 +245,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_passive_upgrades,
                     on_click_params=["AI"],
-                    padding=20
+                    padding=5
                 ),
             "passive_upgrade_3":
                 BuyButton(
@@ -263,7 +263,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_passive_upgrades,
                     on_click_params=["student"],
-                    padding=20
+                    padding=5
                 ),
             "passive_upgrade_4":
                 BuyButton(
@@ -281,7 +281,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_passive_upgrades,
                     on_click_params=["chinese"],
-                    padding=20
+                    padding=5
                 ),
             "active_upgrade_1":
                 BuyButton(
@@ -299,7 +299,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_active_upgrade,
                     on_click_params=["double_click"],
-                    padding=20
+                    padding=5
                 ),
             "active_upgrade_2":
                 BuyButton(
@@ -317,7 +317,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_active_upgrade,
                     on_click_params=["triple_click"],
-                    padding=20
+                    padding=5
                 ),
             "active_upgrade_3":
                 BuyButton(
@@ -335,7 +335,7 @@ class Game:
                     purchased_pressed_image=self.images["button_purchased"]["pressed"],
                     on_click=self.player.buy_active_upgrade,
                     on_click_params=["quadro_click"],
-                    padding=20
+                    padding=5
                 ),
             "settings_sound":
                 Button(
@@ -510,13 +510,13 @@ class Game:
                         [[main_screen], []])
 
     def draw_competitor_text(self, surface):
-        start_x, delta_x = SCREEN_WIDTH / 800 * 325, 0
-        start_y, delta_y = SCREEN_HEIGHT / 800 * 270, SCREEN_HEIGHT / 800 * 112
+        start_x, delta_x = SCREEN_WIDTH / 800 * 100, 0
+        start_y, delta_y = SCREEN_HEIGHT / 800 * 215, SCREEN_HEIGHT / 800 * 112
 
         for index, competitor in enumerate(self.competitors.values()):
             self.draw_number(
                 surface,
-                f"{competitor.get_score()}",
+                f"{self.get_int_form(competitor.get_score())}",
                 start_x + delta_x * index,
                 start_y + delta_y * index,
                 self.get_font(SCREEN_HEIGHT // 20, "rd_font"),

@@ -24,11 +24,11 @@ class Player:
                     "name": "автокликер",
                     "update_for_level": 1,
                     "levels": [False for _ in range(1_000_000)],
-                    "cost_multiplier": 2
+                    "cost_multiplier": 1.2
                 },
 
                 "AI": {
-                    "cost": 1_000,
+                    "cost": 750,
                     "description": "работает быстрее кликера, еще и накрутку исключает. пAI мальчик",
                     "name": "искусственный интеллект",
                     "update_for_level": 5,
@@ -37,7 +37,7 @@ class Player:
                 },
 
                 "student": {
-                    "cost": 1_000_000,
+                    "cost": 15_000,
                     "description": "теперь  студенты ИМКТ голосуют за вас! (не забудьте +10% к рейтингу)",
                     "name": "студенты ИМКТ",
                     "update_for_level": 100,
@@ -46,7 +46,7 @@ class Player:
                 },
 
                 "chinese": {
-                    "cost": 1_000_000_000,
+                    "cost": 50_000,
                     "description": "азиат, что еще сказать",
                     "name": "азиат (бог)",
                     "update_for_level": 1_000,
@@ -64,7 +64,7 @@ class Player:
                 },
 
                 "triple_click": {
-                    "cost": 10_000,
+                    "cost": 1_000,
                     "name": "ТРОйной клик",
                     "description": "купите мышку с боковыми кнопками..",
                     "multiplier": 3,
@@ -72,7 +72,7 @@ class Player:
                 },
 
                 "quadro_click": {
-                    "cost": 2_000_000,
+                    "cost": 10_000,
                     "name": "ЧЕТВЕРНОЙ клик",
                     "description": "макросы.",
                     "multiplier": 4,
