@@ -628,7 +628,7 @@ class Game:
             3: "b"
         }
         check = sum([len(integer_str) > 3, len(integer_str) > 6, len(integer_str) > 9])
-        return str(integer // (1000 ** check)) + ("." + str(integer % (1000 ** check) // 10) if check else "") + cases[
+        return str(integer // (1000 ** check)) + ("." + str(integer % (1000 ** check))[0] if check and len(str(integer // (1000 ** check))) <= 1 else "") + cases[
             check]
 
     @staticmethod
