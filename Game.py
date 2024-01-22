@@ -133,13 +133,12 @@ class Game:
             },
             "digit": {
                 str(i):
-                    pygame.transform.scale(pygame.image.load("data/images/ЦИФРЫ.png"), (pygame.image.load("data"
-                                                                                                          "/images/ЦИФРЫ.png").get_width(), 40)).subsurface(
+                    pygame.image.load("data/images/ЦИФРЫ.png").subsurface(
                         (14 * (i + 1)) + (14 * i) + (40 * max(0, (i - 2))) + (18 if i > 1 else 0) + (
                             40 if i > 0 else 0),
                         0,
                         40 if i != 1 else 14,
-                        40
+                        45
                     ) for i in range(10)
             }
         }
@@ -516,7 +515,7 @@ class Game:
         for index, competitor in enumerate(self.competitors.values()):
             self.draw_number(
                 surface,
-                f"{self.get_int_form(competitor.get_score())}",
+                f'{self.get_int_form(competitor.get_score())}',
                 start_x + delta_x * index,
                 start_y + delta_y * index,
                 self.get_font(SCREEN_HEIGHT // 20, "rd_font"),
@@ -546,7 +545,7 @@ class Game:
     def draw_score(self, surface):
         self.draw_number(
             surface,
-            f"{self.player.get_counter()}",
+            f'{self.player.get_counter()}',
             SCREEN_WIDTH / 1.75,
             SCREEN_HEIGHT / 1.37123054904489,
             self.get_font(40, "button_font"),
@@ -560,7 +559,7 @@ class Game:
         for index, upgrade in enumerate(self.upgrades["passive"]):
             self.draw_number(
                 surface,
-                f"{self.get_int_form(self.player.get_actual_cost_of_passive_upgrade(upgrade))}",
+                f'{self.get_int_form(self.player.get_actual_cost_of_passive_upgrade(upgrade))}',
                 start_text_x + delta_text_x * index,
                 start_text_y + delta_text_y * index,
                 self.get_font(55, "button_font"),
@@ -575,7 +574,7 @@ class Game:
         for index, upgrade in enumerate(self.upgrades["active"]):
             self.draw_number(
                 surface,
-                f"{self.get_int_form(int(self.upgrades["active"][upgrade]["cost"] * (not self.upgrades["active"][upgrade]["levels"])))}",
+                f'{self.get_int_form(int(self.upgrades["active"][upgrade]["cost"] * (not self.upgrades["active"][upgrade]["levels"])))}',
                 start_text_x + delta_text_x * index,
                 start_text_y + delta_text_y * index,
                 self.get_font(55, "button_font"),
