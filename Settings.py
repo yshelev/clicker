@@ -3,7 +3,7 @@ import pygame, sys
 pygame.font.init()
 pygame.mixer.init()
 
-SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = (1200, 1000)
+SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = (1100, 900)
 FPS = 60
 
 screen = pygame.display.set_mode(

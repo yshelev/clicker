@@ -347,7 +347,8 @@ class Game:
                     hover_image=self.images["sound"]["hover"],
                     pressed_image=self.images["sound"]["pressed"],
                     on_click=self.switch,
-                    on_click_params=["sound"]
+                    on_click_params=["sound"],
+                    padding=17
                 )
         }
         self.upgrades = {
