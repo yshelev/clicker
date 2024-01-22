@@ -22,10 +22,11 @@ class Game:
                 Competitor(),
             "krasnoyarsk":
                 Competitor(),
-
+            "omsk":
+                Competitor(),
+            "murmansk":
+                Competitor()
         }
-        self.competitor = Competitor()
-        self.competitor = Competitor()
 
         self.sounds = {
             "background_music":
@@ -55,6 +56,11 @@ class Game:
             "passive_upgrades":
                 pygame.transform.scale(
                     pygame.image.load("data/backgrounds/фон пассивные улучшения.png"),
+                    (SCREEN_WIDTH, SCREEN_HEIGHT)
+                ),
+            "competitors":
+                pygame.transform.scale(
+                    pygame.image.load("data/backgrounds/счет других игроков с текстом.png"),
                     (SCREEN_WIDTH, SCREEN_HEIGHT)
                 )
         }
@@ -447,32 +453,6 @@ class Game:
             self.draw_active_update_text(main_screen)
             self.update(main_screen, events, [self.draw_active_update_text], [[main_screen]])
 
-    def settings_loop(self):
-        self.background = self.backgrounds["other"]
-
-        self.switching_between_activities()
-        running["settings"] = True
-
-        self.show_buttons_group(
-            self.buttons["back"]
-        )
-
-        while running["settings"]:
-            clock.tick(FPS)
-            events = pygame.event.get()
-            main_screen.fill((255, 255, 255))
-
-            for event in events:
-                if event.type == pygame.QUIT:
-                    running["settings"] = False
-                    myquit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        running["settings"] = False
-                        myquit()
-
-            self.update(main_screen, events, [], [])
-
     def passive_upgrades_loop(self):
         self.background = self.backgrounds["passive_upgrades"]
 
@@ -503,7 +483,7 @@ class Game:
             self.update(main_screen, events, [self.draw_passive_updates_text], [[main_screen]])
 
     def competitors_score(self):
-        self.background = self.backgrounds["other"]
+        self.background = self.backgrounds["competitors"]
 
         self.switching_between_activities()
         running["competitors"] = True
@@ -530,18 +510,23 @@ class Game:
                         [[main_screen], []])
 
     def draw_competitor_text(self, surface):
-        self.draw_number(
-            surface,
-            f"{self.competitor.get_score()}",
-            SCREEN_WIDTH / 2,
-            SCREEN_HEIGHT / 2,
-            self.get_font(SCREEN_HEIGHT // 20, "rd_font"),
-            "WHITE",
-            "BLACK"
-        )
+        start_x, delta_x = SCREEN_WIDTH / 800 * 325, 0
+        start_y, delta_y = SCREEN_HEIGHT / 800 * 270, SCREEN_HEIGHT / 800 * 112
+
+        for index, competitor in enumerate(self.competitors.values()):
+            self.draw_number(
+                surface,
+                f"{competitor.get_score()}",
+                start_x + delta_x * index,
+                start_y + delta_y * index,
+                self.get_font(SCREEN_HEIGHT // 20, "rd_font"),
+                "WHITE",
+                "BLACK"
+            )
 
     def competitors_update(self):
-        self.competitor.update()
+        for competitor in self.competitors.values():
+            competitor.update()
 
     def update(self, surface: pygame.Surface, events, funcs, funcs_params) -> None:
         surface.blit(self.background, (0, 0))
