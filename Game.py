@@ -562,10 +562,20 @@ class Game:
                 f'{self.get_int_form(self.player.get_actual_cost_of_passive_upgrade(upgrade))}',
                 start_text_x + delta_text_x * index,
                 start_text_y + delta_text_y * index,
-                self.get_font(55, "button_font"),
+                self.get_font(60, "button_font"),
                 "WHITE",
                 "BLACK"
             )
+
+        self.draw_number(
+            surface,
+            f'score: {self.get_int_form(self.player.get_counter())}',
+            SCREEN_WIDTH / 1200 * 700,
+            SCREEN_HEIGHT / 1000 * 900,
+            self.get_font(60, "button_font"),
+            "WHITE",
+            "BLACK"
+        )
 
 
     def draw_active_update_text(self, surface):
@@ -582,6 +592,16 @@ class Game:
                 "BLACK",
             )
 
+        self.draw_number(
+            surface,
+            f'score: {self.get_int_form(self.player.get_counter())}',
+            SCREEN_WIDTH / 1200 * 700,
+            SCREEN_HEIGHT / 1000 * 900,
+            self.get_font(60, "button_font"),
+            "WHITE",
+            "BLACK"
+        )
+
     def draw_number(self, surface, number, x, y, font, text_color, outline_color):
         number = str(number)
         to_output = ""
@@ -593,7 +613,7 @@ class Game:
                 to_output += "  " if char != "1" else " "
             else:
                 dx += 40 if char != "." else 20
-                to_output += char if char == "." else " " + char
+                to_output += char if index != len(number) - 1 else " " + char
 
         self.draw_text_with_outline(
             surface,
